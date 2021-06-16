@@ -28,6 +28,9 @@ namespace BillsManagement.Core
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            // Inject AppSetting
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+
             services.AddControllersWithViews();
         }
 
