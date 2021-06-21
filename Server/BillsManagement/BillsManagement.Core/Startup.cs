@@ -1,10 +1,17 @@
 ﻿namespace BillsManagement.Core
 {
     using AutoMapper;
+    using BillsManagement.DAL.Models;
+    using BillsManagement.DAL.Settings;
+    using BillsManagement.Repository.Repositories;
+    using BillsManagement.Repository.RepositoryContracts;
+    using BillsManagement.Services.ServiceContracts;
+    using BillsManagement.Services.Services.UserService;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -35,11 +42,22 @@
 
             // Inject AppSetting
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            services.Configure<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
 
             services
                 .AddMvc()
                 .AddMvcOptions(mvc => mvc.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
+
+            // DbContext configuration
+            services.AddDbContext<BillsManagementContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            // Repository configurations
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            // Service configurations
+            services.AddScoped<IUserService, UserService>();
 
             // Cors
             services.AddCors();

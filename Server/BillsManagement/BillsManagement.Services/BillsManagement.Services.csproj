@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BillsManagement.DAL\BillsManagement.DAL.csproj" />
     <ProjectReference Include="..\BillsManagement.Repository\BillsManagement.Repository.csproj" />
+    <ProjectReference Include="..\BillsManagement.Security\BillsManagement.Security.csproj" />
   </ItemGroup>
 
 </Project>
