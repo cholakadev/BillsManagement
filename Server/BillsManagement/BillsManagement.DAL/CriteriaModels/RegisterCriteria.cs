@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.Repository.Models
+﻿namespace BillsManagement.DAL.CriteriaModels
 {
     using BillsManagement.DAL.Models;
 

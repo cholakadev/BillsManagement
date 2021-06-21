@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
+    using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
-    using BillsManagement.Repository.Models;
 
     public interface IUserRepository
     {

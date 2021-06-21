@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
+    using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
-    using BillsManagement.Repository.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
 
