@@ -4,11 +4,17 @@
     using BillsManagement.Repository.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
-    using System.Threading.Tasks;
 
     public class UserRepository : IUserRepository
     {
-        public User GetUserInformation(SearchCriteria getUserInformationSearchCriteria)
+        private readonly BillsManagementContext _dbContext;
+
+        public UserRepository(BillsManagementContext dbContext)
+        {
+            this._dbContext = dbContext;
+        }
+
+        public User GetUserInformation(Criteria getUserInformationSearchCriteria)
         {
             throw new NotImplementedException();
         }
@@ -18,9 +24,15 @@
             throw new NotImplementedException();
         }
 
-        public Task<object> Register(object user)
+        public User Register(RegisterCriteria criteria)
         {
-            throw new NotImplementedException();
+            if (criteria != null && criteria.Password != String.Empty)
+            {
+                this._dbContext.Users.Add(criteria.User);
+                this._dbContext.SaveChanges();
+            }
+
+            return criteria.User;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BillsManagement.Repository.Models
 {
-    public class SearchCriteria
+    public class Criteria
     {
     }
 }
