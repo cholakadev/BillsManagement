@@ -9,6 +9,7 @@ namespace BillsManagement.DAL.Models
     {
         public User()
         {
+            Authentications = new HashSet<Authentication>();
             Bills = new HashSet<Bill>();
         }
 
@@ -21,6 +22,7 @@ namespace BillsManagement.DAL.Models
         public string Address { get; set; }
         public bool IsAdmin { get; set; }
 
+        public virtual ICollection<Authentication> Authentications { get; set; }
         public virtual ICollection<Bill> Bills { get; set; }
     }
 }

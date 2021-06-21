@@ -60,7 +60,13 @@
             services.AddScoped<IUserService, UserService>();
 
             // Cors
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
             // JWT Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -104,13 +110,9 @@
 
             app.UseStaticFiles();
 
-            app.UseCors(policy => policy.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-                .AllowAnyOrigin()
-                .AllowCredentials()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
+            app.UseCors("CorsPolicy");
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseMvc();
         }

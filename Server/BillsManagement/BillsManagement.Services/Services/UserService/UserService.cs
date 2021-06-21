@@ -27,6 +27,7 @@
                 throw new Exception("User already exists.");
             }
 
+            user.UserId = Guid.NewGuid();
             var criteria = new RegisterCriteria();
             criteria.User = user;
 

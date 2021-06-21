@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Security", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Utility", "BillsManagement.Utility\BillsManagement.Utility.csproj", "{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.DomainModels", "BillsManagement.DomainModels\BillsManagement.DomainModels.csproj", "{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

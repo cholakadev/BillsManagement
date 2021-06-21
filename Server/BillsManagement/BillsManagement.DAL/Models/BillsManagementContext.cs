@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -36,16 +34,16 @@ namespace BillsManagement.DAL.Models
 
             modelBuilder.Entity<Authentication>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Authentication");
+
+                entity.Property(e => e.AuthenticationId).ValueGeneratedNever();
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(512);
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.Authentications)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UsersAuthentication");
