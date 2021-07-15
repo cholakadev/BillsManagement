@@ -36,9 +36,9 @@
             {
                 Email = userAuth.Email,
                 Password = userAuth.EncrypedPassword,
-                Secret = "b14ca5898a4e4133bbce2ea2315a1916" //this._securitySettings.EncryptionKey
+                Secret = this._securitySettings.EncryptionKey
             };
-            var decodedPassword = PasswordCipher.DecryptString(criteria.Secret, userAuth.EncrypedPassword);
+            var decodedPassword = PasswordCipher.DecryptString(criteria);
             if (password != decodedPassword)
             {
                 throw new Exception("Authentication failed.");
@@ -48,7 +48,8 @@
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("UserId", userAuth.UserId.ToString())
+                    new Claim("UserId", userAuth.UserId.ToString()),
+                    new Claim("Email", userAuth.Email)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(
@@ -78,10 +79,10 @@
             {
                 Email = user.Email,
                 Password = password,
-                Secret = "b14ca5898a4e4133bbce2ea2315a1916" //this._securitySettings.EncryptionKey
+                Secret = this._securitySettings.EncryptionKey
             };
 
-            criteria.Password = PasswordCipher.EncryptString(encryptCriteria.Secret, encryptCriteria.Password);
+            criteria.Password = PasswordCipher.EncryptString(encryptCriteria);
 
             var response = this._repository.Register(criteria);
 

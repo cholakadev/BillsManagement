@@ -7,14 +7,14 @@ namespace BillsManagement.Security
 {
     public static class PasswordCipher
     {
-        public static string EncryptString(string key, string plainText)
+        public static string EncryptString(EncryptCriteria criteria)
         {
             byte[] iv = new byte[16];
             byte[] array;
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.Key = Encoding.UTF8.GetBytes(criteria.Secret);
                 aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -25,7 +25,7 @@ namespace BillsManagement.Security
                     {
                         using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
                         {
-                            streamWriter.Write(plainText);
+                            streamWriter.Write(criteria.Password);
                         }
 
                         array = memoryStream.ToArray();
@@ -36,14 +36,14 @@ namespace BillsManagement.Security
             return Convert.ToBase64String(array);
         }
 
-        public static string DecryptString(string key, string cipherText)
+        public static string DecryptString(DecryptCriteria criteria)
         {
             byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(cipherText);
+            byte[] buffer = Convert.FromBase64String(criteria.Password);
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.Key = Encoding.UTF8.GetBytes(criteria.Secret);
                 aes.IV = iv;
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
