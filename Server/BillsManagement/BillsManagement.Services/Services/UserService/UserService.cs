@@ -30,7 +30,7 @@
                 Secret = this._securitySettings.EncryptionKey
             };
 
-            if (password != PasswordCipher.DecryptString(criteria) || userAuth == null)
+            if (password != PasswordCipher.Decrypt(criteria) || userAuth == null)
             {
                 throw new Exception("Authentication failed.");
             }
@@ -56,7 +56,7 @@
                 Secret = this._securitySettings.EncryptionKey
             };
 
-            criteria.Password = PasswordCipher.EncryptString(encryptCriteria);
+            criteria.Password = PasswordCipher.Encrypt(encryptCriteria);
 
             var response = this._repository.Register(criteria);
 

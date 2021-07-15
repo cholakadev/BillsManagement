@@ -1,14 +1,14 @@
-﻿using BillsManagement.DAL.EntityModels;
-using BillsManagement.Security;
-using BillsManagement.Services.ServiceContracts;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-
-namespace BillsManagement.Services.Services.UserService
+﻿namespace BillsManagement.Services.Services.UserService
 {
+    using BillsManagement.DAL.EntityModels;
+    using BillsManagement.Security;
+    using BillsManagement.Services.ServiceContracts;
+    using Microsoft.IdentityModel.Tokens;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
+
     public partial class UserService : IUserService
     {
         private string GenerateJwtToken(UserAuthentication userAuth, DecryptCriteria criteria)

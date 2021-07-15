@@ -8,7 +8,7 @@
     {
         protected Guid GetUserId()
         {
-            var userId = this.User.Claims.FirstOrDefault(claimRecord => claimRecord.Type == "UserID").Value;
+            var userId = this.User.Claims.FirstOrDefault(claimRecord => claimRecord.Type == "UserId").Value;
             return Guid.Parse(userId);
         }
     }

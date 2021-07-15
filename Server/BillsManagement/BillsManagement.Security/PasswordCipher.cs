@@ -7,7 +7,7 @@ namespace BillsManagement.Security
 {
     public static class PasswordCipher
     {
-        public static string EncryptString(EncryptCriteria criteria)
+        public static string Encrypt(EncryptCriteria criteria)
         {
             byte[] iv = new byte[16];
             byte[] array;
@@ -36,7 +36,7 @@ namespace BillsManagement.Security
             return Convert.ToBase64String(array);
         }
 
-        public static string DecryptString(DecryptCriteria criteria)
+        public static string Decrypt(DecryptCriteria criteria)
         {
             byte[] iv = new byte[16];
             byte[] buffer = Convert.FromBase64String(criteria.Password);
