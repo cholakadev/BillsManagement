@@ -5,5 +5,7 @@
     public interface IUserService
     {
         User Register(User user, string password);
+
+        string Login(string email, string password);
     }
 }

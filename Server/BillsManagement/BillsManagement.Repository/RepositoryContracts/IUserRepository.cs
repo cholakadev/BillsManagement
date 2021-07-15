@@ -1,14 +1,14 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
     using BillsManagement.DAL.CriteriaModels;
-    using BillsManagement.DAL.Models;
+    using BillsManagement.DAL.EntityModels;
 
     public interface IUserRepository
     {
-        User Register(RegisterCriteria criteria);
+        DAL.Models.User Register(RegisterCriteria criteria);
 
         bool IsExistingUser(string email);
 
-        User GetUserInformation(Criteria getUserInformationSearchCriteria);
+        UserAuthentication GetUserEncryptedPasswordByEmail(string email);
     }
 }

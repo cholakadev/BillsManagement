@@ -1,5 +1,4 @@
-﻿using BillsManagement.Utility;
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,58 +7,57 @@ namespace BillsManagement.Security
 {
     public static class PasswordCipher
     {
-        public static string Encode(EncryptCriteria criteria)
+        public static string EncryptString(string key, string plainText)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(criteria.Secret);
-            sb.Append(criteria.Password);
-            sb.Append(criteria.Email);
+            byte[] iv = new byte[16];
+            byte[] array;
 
-            return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(sb.ToString())));
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
         }
 
-        private static byte[] Encrypt(byte[] strData)
+        public static string DecryptString(string key, string cipherText)
         {
-            PasswordDeriveBytes passbytes =
-            new PasswordDeriveBytes(GlobalConstants.strPermutation,
-            new byte[] { GlobalConstants.bytePermutation1,
-                         GlobalConstants.bytePermutation2,
-                         GlobalConstants.bytePermutation3,
-                         GlobalConstants.bytePermutation4
-            });
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
 
-            MemoryStream memstream = new MemoryStream();
-            Aes aes = new AesManaged();
-            aes.Key = passbytes.GetBytes(aes.KeySize / 8);
-            aes.IV = passbytes.GetBytes(aes.BlockSize / 8);
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-            CryptoStream cryptostream = new CryptoStream(memstream,
-            aes.CreateEncryptor(), CryptoStreamMode.Write);
-            cryptostream.Write(strData, 0, strData.Length);
-            cryptostream.Close();
-            return memstream.ToArray();
-        }
-
-        private static byte[] Decrypt(byte[] strData)
-        {
-            PasswordDeriveBytes passbytes =
-            new PasswordDeriveBytes(GlobalConstants.strPermutation,
-            new byte[] { GlobalConstants.bytePermutation1,
-                         GlobalConstants.bytePermutation2,
-                         GlobalConstants.bytePermutation3,
-                         GlobalConstants.bytePermutation4
-            });
-
-            MemoryStream memstream = new MemoryStream();
-            Aes aes = new AesManaged();
-            aes.Key = passbytes.GetBytes(aes.KeySize / 8);
-            aes.IV = passbytes.GetBytes(aes.BlockSize / 8);
-
-            CryptoStream cryptostream = new CryptoStream(memstream,
-            aes.CreateDecryptor(), CryptoStreamMode.Write);
-            cryptostream.Write(strData, 0, strData.Length);
-            cryptostream.Close();
-            return memstream.ToArray();
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
         }
     }
 }

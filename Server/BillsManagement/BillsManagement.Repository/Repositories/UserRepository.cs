@@ -1,6 +1,7 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
     using BillsManagement.DAL.CriteriaModels;
+    using BillsManagement.DAL.EntityModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
@@ -15,14 +16,24 @@
             this._dbContext = dbContext;
         }
 
-        public User GetUserInformation(Criteria getUserInformationSearchCriteria)
+        public UserAuthentication GetUserEncryptedPasswordByEmail(string email)
         {
-            throw new NotImplementedException();
+            var databaseUser = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
+            var databaseAuth = this._dbContext.Authentications.FirstOrDefault(x => x.UserId == databaseUser.UserId);
+
+            var userAuth = new UserAuthentication()
+            {
+                UserId = databaseUser.UserId,
+                EncrypedPassword = databaseAuth.Password,
+                Email = databaseUser.Email
+            };
+
+            return userAuth;
         }
 
         public bool IsExistingUser(string email)
         {
-            User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
+            DAL.Models.User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -32,7 +43,7 @@
             return true;
         }
 
-        public User Register(RegisterCriteria criteria)
+        public DAL.Models.User Register(RegisterCriteria criteria)
         {
             if (criteria != null && criteria.Password != String.Empty)
             {

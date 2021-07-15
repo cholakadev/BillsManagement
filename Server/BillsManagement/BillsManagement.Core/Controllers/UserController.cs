@@ -46,5 +46,25 @@
                     });
             }
         }
+
+        [HttpPost]
+        [Route("login")]
+        // POST: /rest/user/login
+        public IActionResult Login(LoginRequest request)
+        {
+            try
+            {
+                var token = this._service.Login(request.Email, request.Password);
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)StatusCodes.LoginFailed,
+                    new FaultContract
+                    {
+                        FaultContractMessage = ex.Message
+                    });
+            }
+        }
     }
 }
