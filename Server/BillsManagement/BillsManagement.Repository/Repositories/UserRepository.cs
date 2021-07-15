@@ -19,6 +19,12 @@
         public UserAuthentication GetUserEncryptedPasswordByEmail(string email)
         {
             var databaseUser = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
+
+            if (databaseUser == null)
+            {
+                throw new Exception("User does not exist");
+            }
+
             var databaseAuth = this._dbContext.Authentications.FirstOrDefault(x => x.UserId == databaseUser.UserId);
 
             var userAuth = new UserAuthentication()
