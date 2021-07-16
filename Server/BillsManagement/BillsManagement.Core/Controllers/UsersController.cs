@@ -51,12 +51,14 @@
         [HttpPost]
         [Route("login")]
         // POST: /rest/user/login
-        public IActionResult Login(LoginRequest request)
+        public ActionResult<LoginResponse> Login(LoginRequest request)
         {
             try
             {
-                var token = this._service.Login(request.Email, request.Password);
-                return Ok(new { token });
+                LoginResponse response = new LoginResponse();
+
+                response = this._service.Login(request);
+                return response;
             }
             catch (Exception ex)
             {

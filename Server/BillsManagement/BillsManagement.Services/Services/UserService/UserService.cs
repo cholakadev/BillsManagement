@@ -1,8 +1,10 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
+    using AutoMapper;
     using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.DAL.Settings;
+    using BillsManagement.DomainModels.User;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
@@ -13,16 +15,18 @@
     {
         private readonly IUserRepository _repository;
         private readonly SecuritySettings _securitySettings;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings)
+        public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings, IMapper mapper)
         {
             this._repository = repository;
             this._securitySettings = securitySettings.Value;
+            this._mapper = mapper;
         }
 
-        public string Login(string email, string password)
+        public LoginResponse Login(LoginRequest request)
         {
-            var userAuth = this._repository.GetUserEncryptedPasswordByEmail(email);
+            var userAuth = this._repository.GetUserEncryptedPasswordByEmail(request.Email);
 
             var criteria = new DecryptCriteria()
             {
@@ -30,13 +34,14 @@
                 Secret = this._securitySettings.EncryptionKey
             };
 
-            if (password != PasswordCipher.Decrypt(criteria) || userAuth == null)
+            if (request.Password != PasswordCipher.Decrypt(criteria) || userAuth == null)
             {
                 throw new Exception("Authentication failed.");
             }
 
-            var token = this.GenerateJwtToken(userAuth, criteria);
-            return token;
+            LoginResponse response = new LoginResponse();
+            response.Token = this.GenerateJwtToken(userAuth, criteria);
+            return response;
         }
 
         public User Register(User user, string password)
