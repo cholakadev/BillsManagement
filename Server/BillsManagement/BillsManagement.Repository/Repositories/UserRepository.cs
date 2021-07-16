@@ -51,22 +51,28 @@
 
         public DAL.Models.User Register(RegisterCriteria criteria)
         {
+            User user = new User()
+            {
+                UserId = Guid.NewGuid(),
+                Email = criteria.Email
+            };
+
             if (criteria != null && criteria.Password != String.Empty)
             {
-                this._dbContext.Users.Add(criteria.User);
+                this._dbContext.Users.Add(user);
 
-                var authentication = new Authentication()
+                Authentication authentication = new Authentication()
                 {
                     AuthenticationId = Guid.NewGuid(),
                     Password = criteria.Password,
-                    UserId = criteria.User.UserId
+                    UserId = user.UserId
                 };
 
                 this._dbContext.Authentications.Add(authentication);
                 this._dbContext.SaveChanges();
             }
 
-            return criteria.User;
+            return user;
         }
     }
 }

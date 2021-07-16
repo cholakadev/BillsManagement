@@ -44,26 +44,27 @@
             return response;
         }
 
-        public User Register(User user, string password)
+        public RegisterResponse Register(RegisterRequest request)
         {
-            if (this._repository.IsExistingUser(user.Email))
+            if (this._repository.IsExistingUser(request.Email))
             {
                 throw new Exception("User already exists.");
             }
 
-            user.UserId = Guid.NewGuid();
             var criteria = new RegisterCriteria();
-            criteria.User = user;
+            criteria.Email = request.Email;
 
             var encryptCriteria = new EncryptCriteria()
             {
-                Password = password,
+                Password = request.Password,
                 Secret = this._securitySettings.EncryptionKey
             };
 
             criteria.Password = PasswordCipher.Encrypt(encryptCriteria);
 
-            var response = this._repository.Register(criteria);
+            var registration = this._repository.Register(criteria);
+            RegisterResponse response = new RegisterResponse();
+            response = this._mapper.Map<User, RegisterResponse>(registration);
 
             return response;
         }

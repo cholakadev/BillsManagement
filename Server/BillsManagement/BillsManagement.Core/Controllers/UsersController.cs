@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using BillsManagement.Core.CustomExceptions;
-    using BillsManagement.DAL.Models;
     using BillsManagement.DomainModels.User;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
@@ -24,19 +23,13 @@
         [HttpPost]
         [Route("register")]
         // POST: /rest/user/register
-        public IActionResult Register(RegisterRequest request)
+        public ActionResult<RegisterResponse> Register(RegisterRequest request)
         {
             try
             {
-                var user = new User()
-                {
-                    Email = request.Email
-                };
-
-                var registeredUser = this._service.Register(user, request.Password);
-                var mappedUser = this._mapper.Map<User, RegisterResponse>(registeredUser);
-                return Created(nameof(this.Register), mappedUser);
-                throw new NotImplementedException();
+                RegisterResponse response = new RegisterResponse();
+                response = this._service.Register(request);
+                return response;
             }
             catch (Exception ex)
             {
@@ -56,7 +49,6 @@
             try
             {
                 LoginResponse response = new LoginResponse();
-
                 response = this._service.Login(request);
                 return response;
             }

@@ -34,9 +34,9 @@
             };
 
             var charge = this._repository.GenerateCharge(criteria);
-            var mappedCharge = this._mapper.Map<Charge, GenerateChargeResponse>(charge);
-
-            return mappedCharge;
+            GenerateChargeResponse response = new GenerateChargeResponse();
+            response = this._mapper.Map<Charge, GenerateChargeResponse>(charge);
+            return response;
         }
 
         public object RegisterPayment()
