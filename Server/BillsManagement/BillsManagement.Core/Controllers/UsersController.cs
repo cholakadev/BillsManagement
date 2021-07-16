@@ -10,12 +10,12 @@
 
     [Route("rest/user")]
     [ApiController]
-    public class UserController : BaseController
+    public class UsersController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IUserService _service;
 
-        public UserController(IMapper mapper, IUserService service)
+        public UsersController(IMapper mapper, IUserService service)
         {
             this._mapper = mapper;
             this._service = service;

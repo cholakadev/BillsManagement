@@ -6,6 +6,7 @@
         ConnectionLost = 100,
         SessionExpired = 101,
         RegistrationFailed = 700,
-        LoginFailed = 750
+        LoginFailed = 750,
+        FailedChargeGeneration = 1201
     }
 }

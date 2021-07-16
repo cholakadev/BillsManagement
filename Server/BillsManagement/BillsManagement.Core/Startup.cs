@@ -6,6 +6,7 @@
     using BillsManagement.Repository.Repositories;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Services.ServiceContracts;
+    using BillsManagement.Services.Services.ChargesService;
     using BillsManagement.Services.Services.UserService;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -55,9 +56,11 @@
 
             // Repository configurations
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IChargesRepository, ChargesRepository>();
 
             // Service configurations
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IChargesService, ChargesService>();
 
             // Cors
             services.AddCors(options =>
