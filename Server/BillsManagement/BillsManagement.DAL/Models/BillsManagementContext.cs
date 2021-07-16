@@ -18,7 +18,9 @@ namespace BillsManagement.DAL.Models
         }
 
         public virtual DbSet<Authentication> Authentications { get; set; }
+        public virtual DbSet<CashAccount> CashAccounts { get; set; }
         public virtual DbSet<Charge> Charges { get; set; }
+        public virtual DbSet<ChargeType> ChargeTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,30 +53,51 @@ namespace BillsManagement.DAL.Models
                     .HasConstraintName("FK_UsersAuthentication");
             });
 
+            modelBuilder.Entity<CashAccount>(entity =>
+            {
+                entity.ToTable("CashAccount");
+
+                entity.Property(e => e.CashAccountId).ValueGeneratedNever();
+
+                entity.Property(e => e.Balance)
+                    .HasColumnType("decimal(7, 4)")
+                    .HasDefaultValueSql("((0.0000))");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.CashAccounts)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__CashAccou__UserI__5CD6CB2B");
+            });
+
             modelBuilder.Entity<Charge>(entity =>
             {
-                entity.HasKey(e => e.BillId)
-                    .HasName("PK__Bills__11F2FC6A4C54C5F0");
+                entity.Property(e => e.ChargeId).ValueGeneratedNever();
 
-                entity.Property(e => e.BillId).ValueGeneratedNever();
+                entity.Property(e => e.ChargeDate).HasColumnType("smalldatetime");
 
-                entity.Property(e => e.BillDate).HasColumnType("date");
+                entity.Property(e => e.DueAmount)
+                    .HasColumnType("decimal(7, 4)")
+                    .HasDefaultValueSql("((0.0000))");
 
-                entity.Property(e => e.BillName)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
-                entity.Property(e => e.BillStatus).HasMaxLength(32);
-
-                entity.Property(e => e.DueAmount).HasColumnType("decimal(19, 4)");
-
-                entity.Property(e => e.PaidAmount).HasColumnType("decimal(19, 4)");
+                entity.HasOne(d => d.ChargeTypeNavigation)
+                    .WithMany(p => p.Charges)
+                    .HasForeignKey(d => d.ChargeType)
+                    .HasConstraintName("FK__Charges__ChargeT__66603565");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Charges)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsersBills");
+                    .HasConstraintName("FK__Charges__UserId__656C112C");
+            });
+
+            modelBuilder.Entity<ChargeType>(entity =>
+            {
+                entity.Property(e => e.ChargeTypeId).ValueGeneratedNever();
+
+                entity.Property(e => e.ChargeType1)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnName("ChargeType");
             });
 
             modelBuilder.Entity<User>(entity =>
