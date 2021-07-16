@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
 namespace BillsManagement.DAL.Models
 {
-    public partial class Bill
+    public partial class Charge
     {
         public Guid BillId { get; set; }
         public Guid UserId { get; set; }

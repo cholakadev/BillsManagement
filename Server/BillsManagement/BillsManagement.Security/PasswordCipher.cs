@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace BillsManagement.Security
+﻿namespace BillsManagement.Security
 {
+    using System;
+    using System.IO;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public static class PasswordCipher
     {
         public static string Encrypt(EncryptCriteria criteria)

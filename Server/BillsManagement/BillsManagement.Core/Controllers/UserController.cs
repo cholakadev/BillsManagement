@@ -36,6 +36,7 @@
                 var registeredUser = this._service.Register(user, request.Password);
                 var mappedUser = this._mapper.Map<User, RegisterResponse>(registeredUser);
                 return Created(nameof(this.Register), mappedUser);
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

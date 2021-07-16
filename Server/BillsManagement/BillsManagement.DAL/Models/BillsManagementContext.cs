@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -16,7 +18,7 @@ namespace BillsManagement.DAL.Models
         }
 
         public virtual DbSet<Authentication> Authentications { get; set; }
-        public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,8 +51,11 @@ namespace BillsManagement.DAL.Models
                     .HasConstraintName("FK_UsersAuthentication");
             });
 
-            modelBuilder.Entity<Bill>(entity =>
+            modelBuilder.Entity<Charge>(entity =>
             {
+                entity.HasKey(e => e.BillId)
+                    .HasName("PK__Bills__11F2FC6A4C54C5F0");
+
                 entity.Property(e => e.BillId).ValueGeneratedNever();
 
                 entity.Property(e => e.BillDate).HasColumnType("date");
@@ -66,7 +71,7 @@ namespace BillsManagement.DAL.Models
                 entity.Property(e => e.PaidAmount).HasColumnType("decimal(19, 4)");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Bills)
+                    .WithMany(p => p.Charges)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UsersBills");

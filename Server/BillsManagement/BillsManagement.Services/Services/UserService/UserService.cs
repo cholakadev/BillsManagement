@@ -5,11 +5,10 @@
     using BillsManagement.DAL.Settings;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
-    using BillsManagement.Services.ServiceContracts;
     using Microsoft.Extensions.Options;
     using System;
 
-    public partial class UserService : IUserService
+    public partial class UserService// : IUserService
     {
         private readonly IUserRepository _repository;
         private readonly SecuritySettings _securitySettings;
