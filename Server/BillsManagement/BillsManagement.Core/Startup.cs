@@ -5,6 +5,7 @@
     using BillsManagement.DAL.Settings;
     using BillsManagement.Repository.Repositories;
     using BillsManagement.Repository.RepositoryContracts;
+    using BillsManagement.Services;
     using BillsManagement.Services.ServiceContracts;
     using BillsManagement.Services.Services.ChargesService;
     using BillsManagement.Services.Services.UserService;

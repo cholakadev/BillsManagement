@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
-    using AutoMapper;
     using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DomainModels.User;
     using BillsManagement.Services.ServiceContracts;
@@ -11,12 +10,10 @@
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly IMapper _mapper;
         private readonly IUserService _service;
 
-        public UsersController(IMapper mapper, IUserService service)
+        public UsersController(IUserService service)
         {
-            this._mapper = mapper;
             this._service = service;
         }
 

@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.Core
+﻿namespace BillsManagement.Services
 {
     using AutoMapper;
     using BillsManagement.DAL.Models;

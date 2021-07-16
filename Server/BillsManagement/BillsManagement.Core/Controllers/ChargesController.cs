@@ -1,22 +1,19 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
-    using AutoMapper;
     using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DomainModels.Charges;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;
 
-    [Route("rest/bills")]
+    [Route("rest/charges")]
     [ApiController]
     public class ChargesController : BaseController
     {
-        private readonly IMapper _mapper;
         private readonly IChargesService _service;
 
-        public ChargesController(IMapper mapper, IChargesService service)
+        public ChargesController(IChargesService service)
         {
-            this._mapper = mapper;
             this._service = service;
         }
 
@@ -30,7 +27,7 @@
 
         [HttpGet]
         [Route("getAllCharges")]
-        // POST: /rest/user/register
+        // GET: /rest/charges/getAllCharges
         public IActionResult GetAllCharges()
         {
             throw new NotImplementedException();
@@ -38,7 +35,7 @@
 
         [HttpPost]
         [Route("generateCharge")]
-        // POST: /rest/user/register
+        // POST: /rest/charges/generateCharge
         public ActionResult<GenerateChargeResponse> GenerateCharge(GenerateChargeRequest request)
         {
             try
