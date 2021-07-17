@@ -1,6 +1,6 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
-    using BillsManagement.DAL.EntityModels;
+    using BillsManagement.DAL.Models;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.IdentityModel.Tokens;
@@ -11,14 +11,14 @@
 
     public partial class UserService : IUserService
     {
-        private string GenerateJwtToken(UserAuthentication userAuth, DecryptCriteria criteria)
+        private string GenerateJwtToken(Authentication auth, DecryptCriteria criteria, string email)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("UserId", userAuth.UserId.ToString()),
-                    new Claim("Email", userAuth.Email)
+                    new Claim("UserId", auth.UserId.ToString()),
+                    new Claim("Email", email)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(

@@ -1,3 +1,12 @@
 # BillsManagement
 
-Login not working - not valid base 64 string format
+Think about UserAuthentication class -> Maybe move to repository layer (All mixed entities)
+
+Think about CriteriaModels -> Maybe move to repository layer
+
+Think about Settings -> Maybe move to service layer
+
+TODO :
+
+ChargesRepository -> GenerateCharge -> call new method for getting user balance by id -> update user balance
+(Think about if it will go with negative or positive balance when charges are generated and not paid)

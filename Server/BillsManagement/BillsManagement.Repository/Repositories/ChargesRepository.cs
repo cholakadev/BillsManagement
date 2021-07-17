@@ -4,17 +4,20 @@
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
 
-    public class ChargesRepository : IChargesRepository
+    public class ChargesRepository : BaseRepository, IChargesRepository
     {
-        private readonly BillsManagementContext _dbContext;
+        //private readonly BillsManagementContext _dbContext;
 
         public ChargesRepository(BillsManagementContext dbContext)
+            : base(dbContext)
         {
-            this._dbContext = dbContext;
+            //this._dbContext = dbContext;
         }
 
         public Charge GenerateCharge(GenerateChargeCriteria criteria)
         {
+            this.CheckIfUserExistsById(criteria.Charge.UserId);
+
             Charge charge = new Charge()
             {
                 ChargeId = criteria.Charge.ChargeId,

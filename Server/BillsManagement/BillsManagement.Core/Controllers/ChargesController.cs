@@ -40,7 +40,8 @@
         {
             try
             {
-                GenerateChargeResponse response = this._service.GenerateCharge(request);
+                GenerateChargeResponse response = new GenerateChargeResponse();
+                response = this._service.GenerateCharge(request);
                 return response;
             }
             catch (Exception ex)

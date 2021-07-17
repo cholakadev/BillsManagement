@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
     using BillsManagement.DAL.CriteriaModels;
-    using BillsManagement.DAL.EntityModels;
+    using BillsManagement.DAL.Models;
 
     public interface IUserRepository
     {
@@ -9,6 +9,6 @@
 
         bool IsExistingUser(string email);
 
-        UserAuthentication GetUserEncryptedPasswordByEmail(string email);
+        Authentication GetUserEncryptedPasswordByEmail(string email);
     }
 }

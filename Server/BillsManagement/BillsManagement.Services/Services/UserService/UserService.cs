@@ -26,21 +26,21 @@
 
         public LoginResponse Login(LoginRequest request)
         {
-            var userAuth = this._repository.GetUserEncryptedPasswordByEmail(request.Email);
+            var auth = this._repository.GetUserEncryptedPasswordByEmail(request.Email);
 
             var criteria = new DecryptCriteria()
             {
-                Password = userAuth.EncrypedPassword,
+                Password = auth.Password,
                 Secret = this._securitySettings.EncryptionKey
             };
 
-            if (request.Password != PasswordCipher.Decrypt(criteria) || userAuth == null)
+            if (request.Password != PasswordCipher.Decrypt(criteria) || auth == null)
             {
                 throw new Exception("Authentication failed.");
             }
 
             LoginResponse response = new LoginResponse();
-            response.Token = this.GenerateJwtToken(userAuth, criteria);
+            response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
             return response;
         }
 
@@ -48,7 +48,7 @@
         {
             if (this._repository.IsExistingUser(request.Email))
             {
-                throw new Exception("User already exists.");
+                throw new Exception("Email is already taken.");
             }
 
             var criteria = new RegisterCriteria();

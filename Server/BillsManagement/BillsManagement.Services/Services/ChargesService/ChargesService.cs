@@ -21,6 +21,9 @@
 
         public GenerateChargeResponse GenerateCharge(GenerateChargeRequest request)
         {
+
+            throw new Exception("Bachka");
+
             var criteria = new GenerateChargeCriteria()
             {
                 Charge = new Charge()

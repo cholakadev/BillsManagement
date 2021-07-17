@@ -1,22 +1,22 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
     using BillsManagement.DAL.CriteriaModels;
-    using BillsManagement.DAL.EntityModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
     using System.Linq;
 
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly BillsManagementContext _dbContext;
+        //private readonly BillsManagementContext _dbContext;
 
         public UserRepository(BillsManagementContext dbContext)
+            : base(dbContext)
         {
-            this._dbContext = dbContext;
+            //this._dbContext = dbContext;
         }
 
-        public UserAuthentication GetUserEncryptedPasswordByEmail(string email)
+        public Authentication GetUserEncryptedPasswordByEmail(string email)
         {
             var databaseUser = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
 
@@ -25,16 +25,8 @@
                 throw new Exception("User does not exist");
             }
 
-            var databaseAuth = this._dbContext.Authentications.FirstOrDefault(x => x.UserId == databaseUser.UserId);
-
-            var userAuth = new UserAuthentication()
-            {
-                UserId = databaseUser.UserId,
-                EncrypedPassword = databaseAuth.Password,
-                Email = databaseUser.Email
-            };
-
-            return userAuth;
+            var auth = this._dbContext.Authentications.FirstOrDefault(x => x.UserId == databaseUser.UserId);
+            return auth;
         }
 
         public bool IsExistingUser(string email)
