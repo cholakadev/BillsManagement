@@ -41,5 +41,8 @@
 
             return true;
         }
+
+        internal CashAccount GetCashAccountByUserId(Guid? userId)
+            => this._dbContext.CashAccounts.FirstOrDefault(x => x.UserId == userId);
     }
 }
