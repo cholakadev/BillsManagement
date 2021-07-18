@@ -4,9 +4,19 @@
     {
         UnknownError = 0,
         ConnectionLost = 100,
-        SessionExpired = 101,
-        RegistrationFailed = 700,
-        LoginFailed = 750,
-        FailedChargeGeneration = 1201
+
+        #region Authentication status codes
+
+        SessionExpired = 600,
+        RegistrationFailed = 601,
+        LoginFailed = 602,
+
+        #endregion
+
+        #region Charges status codes
+
+        FailedChargeGeneration = 650
+
+        #endregion
     }
 }

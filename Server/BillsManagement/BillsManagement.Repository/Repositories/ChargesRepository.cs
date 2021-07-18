@@ -3,20 +3,24 @@
     using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
+    using System;
 
     public class ChargesRepository : BaseRepository, IChargesRepository
     {
-        //private readonly BillsManagementContext _dbContext;
-
         public ChargesRepository(BillsManagementContext dbContext)
             : base(dbContext)
         {
-            //this._dbContext = dbContext;
+
         }
 
         public Charge GenerateCharge(GenerateChargeCriteria criteria)
         {
-            this.CheckIfUserExistsById(criteria.Charge.UserId);
+            bool isExisting = this.CheckIfUserExistsById(criteria.Charge.UserId);
+
+            if (!isExisting)
+            {
+                throw new Exception("Can't generate a charge for not existing user.");
+            }
 
             Charge charge = new Charge()
             {
