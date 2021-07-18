@@ -1,7 +1,6 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
     using AutoMapper;
-    using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
@@ -30,7 +29,7 @@
 
         public bool IsExistingUser(string email)
         {
-            DAL.Models.User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
+            User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -40,30 +39,33 @@
             return true;
         }
 
-        public DAL.Models.User Register(RegisterCriteria criteria)
+        public DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password)
         {
+            if (registrationRequest == null && password == String.Empty)
+            {
+                throw new Exception("Invalid request data.");
+            }
+
             User user = new User()
             {
                 UserId = Guid.NewGuid(),
-                Email = criteria.Email
+                Email = registrationRequest.Email
             };
 
-            if (criteria != null && criteria.Password != String.Empty)
+            Authentication authentication = new Authentication()
             {
-                this._dbContext.Users.Add(user);
+                AuthenticationId = Guid.NewGuid(),
+                Password = password,
+                UserId = user.UserId
+            };
 
-                Authentication authentication = new Authentication()
-                {
-                    AuthenticationId = Guid.NewGuid(),
-                    Password = criteria.Password,
-                    UserId = user.UserId
-                };
+            var registration = this._mapper.Map<User, DomainModel.Registration>(user);
 
-                this._dbContext.Authentications.Add(authentication);
-                this._dbContext.SaveChanges();
-            }
+            this._dbContext.Users.Add(user);
+            this._dbContext.Authentications.Add(authentication);
+            this._dbContext.SaveChanges();
 
-            return user;
+            return registration;
         }
     }
 }

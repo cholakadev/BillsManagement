@@ -16,18 +16,6 @@
 
         public GenerateChargeResponse GenerateCharge(GenerateChargeRequest request)
         {
-            //var criteria = new GenerateChargeCriteria()
-            //{
-            //    Charge = new Charge()
-            //    {
-            //        ChargeId = Guid.NewGuid(),
-            //        ChargeDate = request.ChargeDate,
-            //        ChargeType = request.ChargeTypeId,
-            //        DueAmount = request.DueAmount,
-            //        UserId = request.UserId
-            //    }
-            //};
-
             var charge = new DomainModel.Charge()
             {
                 ChargeId = Guid.NewGuid(),

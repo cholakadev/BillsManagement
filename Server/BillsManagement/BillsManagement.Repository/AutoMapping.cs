@@ -29,7 +29,7 @@
 
             #region Authentication Translators
 
-            CreateMap<DAL.Models.User, DomainModel.Registration>()
+            CreateMap<User, DomainModel.Registration>()
                 .ForMember(destination => destination.FirstName, options => options.MapFrom(source => source.FirstName))
                 .ForMember(destination => destination.MiddleName, options => options.MapFrom(source => source.MiddleName))
                 .ForMember(destination => destination.LastName, options => options.MapFrom(source => source.LastName))
@@ -47,8 +47,6 @@
                     Email = source.Email,
                     Phone = source.Phone
                 }));
-
-            //CreateMap<User, RegisterResponse>();
 
             #endregion
         }

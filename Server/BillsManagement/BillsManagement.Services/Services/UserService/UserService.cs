@@ -1,9 +1,8 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
     using AutoMapper;
-    using BillsManagement.DAL.CriteriaModels;
-    using BillsManagement.DAL.Models;
     using BillsManagement.DAL.Settings;
+    using BillsManagement.DomainModel;
     using BillsManagement.DomainModel.User;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
@@ -51,21 +50,22 @@
                 throw new Exception("Email is already taken.");
             }
 
-            var criteria = new RegisterCriteria();
-            criteria.Email = request.Email;
-
             var encryptCriteria = new EncryptCriteria()
             {
                 Password = request.Password,
                 Secret = this._securitySettings.EncryptionKey
             };
 
-            criteria.Password = PasswordCipher.Encrypt(encryptCriteria);
+            var registerRequest = new Registration()
+            {
+                Email = request.Email,
+            };
+            var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
 
-            var registration = this._repository.Register(criteria);
+            var registration = this._repository.Register(registerRequest, encryptedPassword);
+
             RegisterResponse response = new RegisterResponse();
-            response = this._mapper.Map<User, RegisterResponse>(registration);
-
+            response.Registration = registration;
             return response;
         }
     }

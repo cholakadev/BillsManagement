@@ -29,5 +29,17 @@
 
             return isExisting;
         }
+
+        internal bool IsExistingUser(string email)
+        {
+            User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

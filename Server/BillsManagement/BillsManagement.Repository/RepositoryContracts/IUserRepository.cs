@@ -1,11 +1,10 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
-    using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
 
     public interface IUserRepository
     {
-        DAL.Models.User Register(RegisterCriteria criteria);
+        DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password);
 
         bool IsExistingUser(string email);
 
