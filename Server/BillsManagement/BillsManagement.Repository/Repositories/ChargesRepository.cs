@@ -1,37 +1,30 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
-    using BillsManagement.DAL.CriteriaModels;
+    using AutoMapper;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
 
     public class ChargesRepository : BaseRepository, IChargesRepository
     {
-        public ChargesRepository(BillsManagementContext dbContext)
-            : base(dbContext)
+        public ChargesRepository(BillsManagementContext dbContext, IMapper mapper)
+            : base(dbContext, mapper)
         {
 
         }
 
-        public Charge GenerateCharge(GenerateChargeCriteria criteria)
+        public DomainModel.Charge GenerateCharge(DomainModel.Charge charge)
         {
-            bool isExisting = this.CheckIfUserExistsById(criteria.Charge.UserId);
+            bool isExisting = this.CheckIfUserExistsById(charge.UserId);
 
             if (!isExisting)
             {
                 throw new Exception("Can't generate a charge for not existing user.");
             }
 
-            Charge charge = new Charge()
-            {
-                ChargeId = criteria.Charge.ChargeId,
-                ChargeDate = criteria.Charge.ChargeDate,
-                ChargeType = criteria.Charge.ChargeType,
-                DueAmount = criteria.Charge.DueAmount,
-                UserId = criteria.Charge.UserId
-            };
+            var entity = this._mapper.Map<DomainModel.Charge, Charge>(charge);
 
-            this._dbContext.Add(charge);
+            this._dbContext.Add(entity);
             this._dbContext.SaveChanges();
 
             return charge;

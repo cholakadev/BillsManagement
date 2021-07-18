@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BillsManagement.DAL\BillsManagement.DAL.csproj" />
+    <ProjectReference Include="..\BillsManagement.DomainModels\BillsManagement.DomainModels.csproj" />
   </ItemGroup>
 
 </Project>

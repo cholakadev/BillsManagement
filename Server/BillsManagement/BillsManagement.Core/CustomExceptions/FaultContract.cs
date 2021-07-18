@@ -1,7 +1,10 @@
 ﻿namespace BillsManagement.Core.CustomExceptions
 {
+    using System.Text.Json.Serialization;
+
     public class FaultContract
     {
-        public string FaultContractMessage { get; set; }
+        [JsonPropertyName("Error")]
+        public Error Error { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.DomainModels
+﻿namespace BillsManagement.DomainModel
 {
     using System;
     using System.Text.Json.Serialization;

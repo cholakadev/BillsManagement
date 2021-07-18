@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.DomainModels.User
+﻿namespace BillsManagement.DomainModel.User
 {
     using System.Text.Json.Serialization;
 

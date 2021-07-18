@@ -4,7 +4,7 @@
     using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.DAL.Settings;
-    using BillsManagement.DomainModels.User;
+    using BillsManagement.DomainModel.User;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;

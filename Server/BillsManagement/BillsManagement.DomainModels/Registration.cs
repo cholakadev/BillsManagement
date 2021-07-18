@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BillsManagement.DomainModels
+﻿namespace BillsManagement.DomainModel
 {
+    using System.Text.Json.Serialization;
+
     public class Registration
     {
         [JsonPropertyName("FirstName")]

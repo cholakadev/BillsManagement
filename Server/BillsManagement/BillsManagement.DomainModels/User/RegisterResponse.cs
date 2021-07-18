@@ -1,10 +1,10 @@
-﻿namespace BillsManagement.DomainModels.User
+﻿namespace BillsManagement.DomainModel.User
 {
     using System.Text.Json.Serialization;
 
     public class RegisterResponse
     {
         [JsonPropertyName("Registration")]
-        public DomainModels.Registration Registration { get; set; }
+        public DomainModel.Registration Registration { get; set; }
     }
 }

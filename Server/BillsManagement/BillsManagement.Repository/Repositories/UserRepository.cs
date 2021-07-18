@@ -1,5 +1,6 @@
 ﻿namespace BillsManagement.Repository.Repositories
 {
+    using AutoMapper;
     using BillsManagement.DAL.CriteriaModels;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository.RepositoryContracts;
@@ -8,12 +9,10 @@
 
     public class UserRepository : BaseRepository, IUserRepository
     {
-        //private readonly BillsManagementContext _dbContext;
-
-        public UserRepository(BillsManagementContext dbContext)
-            : base(dbContext)
+        public UserRepository(BillsManagementContext dbContext, IMapper mapper)
+            : base(dbContext, mapper)
         {
-            //this._dbContext = dbContext;
+
         }
 
         public Authentication GetUserEncryptedPasswordByEmail(string email)

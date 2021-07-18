@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.DomainModels.Charges
+﻿namespace BillsManagement.DomainModel.Charges
 {
     using System;
 

@@ -1,6 +1,6 @@
 ﻿namespace BillsManagement.Services.ServiceContracts
 {
-    using BillsManagement.DomainModels.User;
+    using BillsManagement.DomainModel.User;
 
     public interface IUserService
     {

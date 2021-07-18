@@ -1,4 +1,4 @@
-﻿namespace BillsManagement.DomainModels.User
+﻿namespace BillsManagement.DomainModel.User
 {
     public class LoginRequest
     {

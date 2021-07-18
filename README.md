@@ -10,4 +10,4 @@ ChargesRepository -> GenerateCharge -> call new method for getting user balance 
 (Think about if it will go with negative or positive balance when charges are generated and not paid)
 
 
-Postman could not get response on throwing exception in generateCharges method only. -> See why it happens.
+Think about repository to return domain models and map models in repository layer.

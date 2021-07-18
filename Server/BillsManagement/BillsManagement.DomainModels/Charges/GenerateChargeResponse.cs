@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BillsManagement.DomainModels.Charges
+namespace BillsManagement.DomainModel.Charges
 {
     public class GenerateChargeResponse
     {
         [JsonPropertyName("Charge")]
-        public DomainModels.Charge Charge { get; set; }
+        public DomainModel.Charge Charge { get; set; }
     }
 }

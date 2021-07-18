@@ -1,6 +1,6 @@
 ﻿namespace BillsManagement.Services.ServiceContracts
 {
-    using BillsManagement.DomainModels.Charges;
+    using BillsManagement.DomainModel.Charges;
     using System;
 
     public interface IChargesService

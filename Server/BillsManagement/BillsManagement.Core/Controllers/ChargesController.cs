@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
     using BillsManagement.Core.CustomExceptions;
-    using BillsManagement.DomainModels.Charges;
+    using BillsManagement.DomainModel.Charges;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -49,7 +49,11 @@
                 return StatusCode((int)StatusCodes.FailedChargeGeneration,
                     new FaultContract
                     {
-                        FaultContractMessage = ex.Message
+                        Error = new Error()
+                        {
+                            ErrorMessage = ex.Message,
+                            ErrorStatusCode = (int)StatusCodes.FailedChargeGeneration
+                        }
                     });
             }
         }

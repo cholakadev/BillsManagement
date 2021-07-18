@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
     using BillsManagement.Core.CustomExceptions;
-    using BillsManagement.DomainModels.User;
+    using BillsManagement.DomainModel.User;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -33,7 +33,11 @@
                 return StatusCode((int)StatusCodes.RegistrationFailed,
                     new FaultContract
                     {
-                        FaultContractMessage = ex.Message
+                        Error = new Error()
+                        {
+                            ErrorMessage = ex.Message,
+                            ErrorStatusCode = (int)StatusCodes.RegistrationFailed
+                        }
                     });
             }
         }
@@ -54,7 +58,11 @@
                 return StatusCode((int)StatusCodes.LoginFailed,
                     new FaultContract
                     {
-                        FaultContractMessage = ex.Message
+                        Error = new Error()
+                        {
+                            ErrorMessage = ex.Message,
+                            ErrorStatusCode = (int)StatusCodes.LoginFailed
+                        }
                     });
             }
         }
