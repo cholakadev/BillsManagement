@@ -1,4 +1,3 @@
 # BillsManagement
 
-- [x] This is a complete item
-- [ ] This is an incomplete item
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)

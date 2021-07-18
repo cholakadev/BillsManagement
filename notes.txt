@@ -1,6 +1,3 @@
 Think about CriteriaModels -> Maybe move to repository layer
 
 Think about Settings -> Maybe move to service layer
-
-- [x] This is a complete item
-- [ ] This is an incomplete item
