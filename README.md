@@ -1,2 +1,1 @@
-[Bills Management System](#heading)
-### <h3 align="center" id="heading">Heading</h3>
+### <h3 align="center">Bills Management System</h3>
