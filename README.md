@@ -2,14 +2,13 @@
 
 ### <h3 align="center">Technologies</h3>
 
+<div>
 <ul>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-<li>Fourth item</li>
+<li>Angular 9.1.0</li>
+<li>.Net Core 5</li>
 </ul>
-
-- First item
-- Second item
-- Third item
-- Fourth item
+<ul>
+<li>Angular 9.1.0</li>
+<li>.Net Core 5</li>
+</ul>
+</div>
