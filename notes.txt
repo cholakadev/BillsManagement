@@ -1,3 +1,1 @@
 Think about CriteriaModels -> Maybe move to repository layer
-
-Think about Settings -> Maybe move to service layer
