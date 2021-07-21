@@ -15,7 +15,8 @@
 
         #region Charges status codes
 
-        FailedChargeGeneration = 650
+        FailedChargeGeneration = 650,
+        FailedGettingCharges = 651
 
         #endregion
     }

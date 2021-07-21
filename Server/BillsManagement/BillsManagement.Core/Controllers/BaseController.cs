@@ -11,5 +11,15 @@
             var userId = this.User.Claims.FirstOrDefault(claimRecord => claimRecord.Type == "UserId").Value;
             return Guid.Parse(userId);
         }
+
+        protected void ValidateUserClaim()
+        {
+            var userIdClaim = this.User.Claims.FirstOrDefault(claimRecord => claimRecord.Type == "UserId");
+
+            if (userIdClaim == null)
+            {
+                throw new Exception("Unauthorized call.");
+            }
+        }
     }
 }

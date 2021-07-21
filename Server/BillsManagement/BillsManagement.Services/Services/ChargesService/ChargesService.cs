@@ -31,6 +31,13 @@
             return response;
         }
 
+        public GetChargesResponse GetCharges()
+        {
+            GetChargesResponse response = new GetChargesResponse();
+            response.Charges = this._repository.GetCharges();
+            return response;
+        }
+
         public object RegisterPayment()
         {
             throw new System.NotImplementedException();

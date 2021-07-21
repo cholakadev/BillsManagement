@@ -26,11 +26,29 @@
         }
 
         [HttpGet]
-        [Route("getAllCharges")]
-        // GET: /rest/charges/getAllCharges
-        public IActionResult GetAllCharges()
+        [Route("getCharges")]
+        // GET: /rest/charges/getCharges
+        public ActionResult<GetChargesResponse> GetCharges()
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetChargesResponse response = new GetChargesResponse();
+                this.ValidateUserClaim();
+                response = this._service.GetCharges();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)StatusCodes.FailedChargeGeneration,
+                    new FaultContract
+                    {
+                        Error = new Error()
+                        {
+                            ErrorMessage = ex.Message,
+                            ErrorStatusCode = (int)StatusCodes.FailedGettingCharges
+                        }
+                    });
+            }
         }
 
         [HttpPost]

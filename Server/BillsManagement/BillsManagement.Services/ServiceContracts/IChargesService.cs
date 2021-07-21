@@ -8,5 +8,7 @@
         Object RegisterPayment();
 
         GenerateChargeResponse GenerateCharge(GenerateChargeRequest request);
+
+        GetChargesResponse GetCharges();
     }
 }
