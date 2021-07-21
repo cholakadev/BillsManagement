@@ -30,7 +30,7 @@
             var criteria = new DecryptCriteria()
             {
                 Password = auth.Password,
-                Secret = this._securitySettings.EncryptionKey
+                Secret = this._securitySettings.JWT_Secret
             };
 
             if (request.Password != PasswordCipher.Decrypt(criteria) || auth == null)
@@ -53,7 +53,7 @@
             var encryptCriteria = new EncryptCriteria()
             {
                 Password = request.Password,
-                Secret = this._securitySettings.EncryptionKey
+                Secret = this._securitySettings.JWT_Secret
             };
 
             var registerRequest = new Registration()

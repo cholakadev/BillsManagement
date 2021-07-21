@@ -13,12 +13,15 @@
     {
         private string GenerateJwtToken(Authentication auth, DecryptCriteria criteria, string email)
         {
+            var tokenGenerateTime = DateTime.Now;
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("UserId", auth.UserId.ToString()),
-                    new Claim("Email", email)
+                    new Claim("Email", email),
+                    new Claim("SecretGuid", Guid.NewGuid().ToString()),
+                    new Claim("GenerateDate", tokenGenerateTime.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(

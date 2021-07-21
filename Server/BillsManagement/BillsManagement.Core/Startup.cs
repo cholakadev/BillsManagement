@@ -73,7 +73,7 @@
             });
 
             // JWT Authentication
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            var key = Encoding.UTF8.GetBytes(Configuration["SecuritySettings:JWT_Secret"].ToString());
 
             services.AddAuthentication(x =>
             {
