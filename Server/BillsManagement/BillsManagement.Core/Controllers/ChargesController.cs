@@ -5,6 +5,7 @@
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Net;
 
     [Route("rest/charges")]
     [ApiController]
@@ -35,6 +36,7 @@
                 GetChargesResponse response = new GetChargesResponse();
                 this.ValidateUserClaim();
                 response = this._service.GetCharges();
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             catch (Exception ex)
@@ -60,6 +62,7 @@
             {
                 GenerateChargeResponse response = new GenerateChargeResponse();
                 response = this._service.GenerateCharge(request);
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             catch (Exception ex)

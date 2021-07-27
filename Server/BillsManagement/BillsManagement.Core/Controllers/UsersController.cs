@@ -5,6 +5,7 @@
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Net;
 
     [Route("rest/user")]
     [ApiController]
@@ -26,6 +27,7 @@
             {
                 RegisterResponse response = new RegisterResponse();
                 response = this._service.Register(request);
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             catch (Exception ex)
@@ -51,6 +53,7 @@
             {
                 LoginResponse response = new LoginResponse();
                 response = this._service.Login(request);
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             catch (Exception ex)
