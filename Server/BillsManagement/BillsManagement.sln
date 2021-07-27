@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.DAL", "Bill
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Repository", "BillsManagement.Repository\BillsManagement.Repository.csproj", "{9B8145D9-DB1A-4E05-9263-A278EDB502B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Services", "BillsManagement.Services\BillsManagement.Services.csproj", "{B6B1D46E-33BF-4588-8FA6-8F77745640E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Services", "BillsManagement.Services\BillsManagement.Services.csproj", "{B6B1D46E-33BF-4588-8FA6-8F77745640E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Security", "BillsManagement.Security\BillsManagement.Security.csproj", "{3D19393F-4E20-4AC5-A5D8-CECDCC0A3713}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Security", "BillsManagement.Security\BillsManagement.Security.csproj", "{3D19393F-4E20-4AC5-A5D8-CECDCC0A3713}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Utility", "BillsManagement.Utility\BillsManagement.Utility.csproj", "{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Utility", "BillsManagement.Utility\BillsManagement.Utility.csproj", "{F20EC64A-385D-475C-AD92-AD5A9AF0F78B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.DomainModels", "BillsManagement.DomainModels\BillsManagement.DomainModels.csproj", "{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.DomainModels", "BillsManagement.DomainModels\BillsManagement.DomainModels.csproj", "{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Tests", "BillsManagement.Tests\BillsManagement.Tests.csproj", "{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
