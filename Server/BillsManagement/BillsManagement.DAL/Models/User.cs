@@ -12,6 +12,7 @@ namespace BillsManagement.DAL.Models
             Authentications = new HashSet<Authentication>();
             CashAccounts = new HashSet<CashAccount>();
             Charges = new HashSet<Charge>();
+            SecurityTokens = new HashSet<SecurityToken>();
         }
 
         public Guid UserId { get; set; }
@@ -26,5 +27,6 @@ namespace BillsManagement.DAL.Models
         public virtual ICollection<Authentication> Authentications { get; set; }
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
         public virtual ICollection<Charge> Charges { get; set; }
+        public virtual ICollection<SecurityToken> SecurityTokens { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace BillsManagement.DAL.Models
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<ChargeType> ChargeTypes { get; set; }
         public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
+        public virtual DbSet<SecurityToken> SecurityTokens { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -107,6 +108,26 @@ namespace BillsManagement.DAL.Models
                 entity.Property(e => e.BusinessEmail).HasMaxLength(128);
 
                 entity.Property(e => e.BusinessEmailPassword).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<SecurityToken>(entity =>
+            {
+                entity.ToTable("SecurityToken");
+
+                entity.Property(e => e.SecurityTokenId).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.IsExpired).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SecurityToken1)
+                    .IsRequired()
+                    .HasMaxLength(1024)
+                    .HasColumnName("SecurityToken");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.SecurityTokens)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SecurityT__UserI__71D1E811");
             });
 
             modelBuilder.Entity<User>(entity =>

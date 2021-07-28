@@ -1,1 +1,10 @@
 Think about CriteriaModels -> Maybe move to repository layer
+
+
+
+Security table in DB
+
+Token expires in 5 days
+
+-> generate new token on every login
+-> Set boolean IsExpired = true if new token is generated with default value false
