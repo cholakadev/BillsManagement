@@ -9,9 +9,6 @@
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.Extensions.Options;
     using System;
-    using System.Net;
-    using System.Net.Mail;
-    using System.Text;
 
     public partial class UserService : IUserService
     {
@@ -65,32 +62,9 @@
             };
             var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
 
-            var registration = this._repository.Register(registerRequest, encryptedPassword);
+            var registration = this._repository.Register(registerRequest, encryptedPassword, out DomainModel.Settings settings);
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<html><body>");
-            //sb.Append("<p>Dear, " + registration.Email + "</p>");
-            sb.Append("<h3>Thank you for joining the Bills Management beta.</h3>");
-            sb.Append("</body></html>");
-
-            using (MailMessage mail = new MailMessage())
-            {
-                mail.From = new MailAddress("charge.manager1@gmail.com");
-                mail.To.Add("cholakovge@gmail.com");
-                mail.Subject = "Testing Subject";
-                mail.Body = sb.ToString();
-                mail.IsBodyHtml = true;
-                //mail.Attachments.Add(new Attachment("C:\\file.zip"));
-
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                {
-                    smtp.Credentials = new NetworkCredential("charge.manager1@gmail.com", "Charge.Manager.1");
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
-                }
-            }
-
-            //smtpClient.Send("cholakovge@gmail.com", "recipient", "subject", "body");
+            this.SendRegisterNotificationOnEmail(registration, settings);
 
             RegisterResponse response = new RegisterResponse();
             response.Registration = registration;

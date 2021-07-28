@@ -20,5 +20,10 @@ namespace BillsManagement.Tests.UsersControllerTests
         {
             throw new System.NotImplementedException();
         }
+
+        public Registration Register(Registration registrationRequest, string password, out Settings settings)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -21,7 +21,7 @@
                 ChargeId = Guid.NewGuid(),
                 ChargeDate = request.ChargeDate,
                 DueAmount = request.DueAmount,
-                ChargeType = request.ChargeTypeId,
+                ChargeTypeId = request.ChargeTypeId,
                 UserId = request.UserId
             };
 

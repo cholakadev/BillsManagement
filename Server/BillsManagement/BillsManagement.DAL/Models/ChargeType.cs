@@ -13,7 +13,7 @@ namespace BillsManagement.DAL.Models
         }
 
         public Guid ChargeTypeId { get; set; }
-        public string ChargeType1 { get; set; }
+        public string ChargeTypeName { get; set; }
 
         public virtual ICollection<Charge> Charges { get; set; }
     }

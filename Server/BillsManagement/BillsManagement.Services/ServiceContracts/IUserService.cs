@@ -4,8 +4,8 @@
 
     public interface IUserService
     {
-        RegisterResponse Register(RegisterRequest request);
+        DomainModel.RegisterResponse Register(RegisterRequest request);
 
-        LoginResponse Login(LoginRequest request);
+        DomainModel.LoginResponse Login(LoginRequest request);
     }
 }

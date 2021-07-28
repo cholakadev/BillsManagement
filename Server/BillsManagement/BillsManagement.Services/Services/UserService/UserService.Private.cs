@@ -6,6 +6,8 @@
     using Microsoft.IdentityModel.Tokens;
     using System;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Net;
+    using System.Net.Mail;
     using System.Security.Claims;
     using System.Text;
 
@@ -37,6 +39,32 @@
             var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
             //var token = tokenHandler.WriteToken(securityToken);
             return securityToken;
+        }
+
+        private void SendRegisterNotificationOnEmail(DomainModel.Registration registration, DomainModel.Settings settings)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<html><body>");
+            //sb.Append("<p>Dear, " + registration.Email + "</p>");
+            sb.Append("<h3>Thank you for joining the Bills Management beta.</h3>");
+            sb.Append("</body></html>");
+
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress(settings.BusinessEmail);
+                mail.To.Add("cholakovge@gmail.com");
+                mail.Subject = "Registration confirmed!";
+                mail.Body = sb.ToString();
+                mail.IsBodyHtml = true;
+                //mail.Attachments.Add(new Attachment("C:\\file.zip"));
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential(settings.BusinessEmail, settings.BusinessEmailPassword);
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
         }
     }
 }

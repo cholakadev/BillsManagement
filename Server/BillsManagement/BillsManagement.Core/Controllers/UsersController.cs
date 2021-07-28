@@ -1,6 +1,7 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
     using BillsManagement.Core.CustomExceptions;
+    using BillsManagement.DomainModel;
     using BillsManagement.DomainModel.User;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@
         [HttpPost]
         [Route("register")]
         // POST: /rest/user/register
-        public ActionResult<RegisterResponse> Register(RegisterRequest request)
+        public ActionResult<DomainModel.RegisterResponse> Register(RegisterRequest request)
         {
             try
             {
@@ -47,7 +48,7 @@
         [HttpPost]
         [Route("login")]
         // POST: /rest/user/login
-        public ActionResult<LoginResponse> Login(LoginRequest request)
+        public ActionResult<DomainModel.LoginResponse> Login(LoginRequest request)
         {
             try
             {

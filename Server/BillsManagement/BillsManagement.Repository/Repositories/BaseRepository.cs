@@ -44,5 +44,15 @@
 
         internal CashAccount GetCashAccountByUserId(Guid? userId)
             => this._dbContext.CashAccounts.FirstOrDefault(x => x.UserId == userId);
+
+        internal DomainModel.Settings GetNotificationSettings(int key)
+        {
+            var notificationSettings = this._dbContext.NotificationSettings
+                .FirstOrDefault(x => x.SettingsKey == 1);
+
+            var settings = this._mapper.Map<NotificationSetting, DomainModel.Settings>(notificationSettings);
+
+            return settings;
+        }
     }
 }

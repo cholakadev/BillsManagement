@@ -39,7 +39,7 @@
             return true;
         }
 
-        public DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password)
+        public DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password, out DomainModel.Settings settings)
         {
             if (registrationRequest == null && password == String.Empty)
             {
@@ -64,6 +64,8 @@
             this._dbContext.Users.Add(user);
             this._dbContext.Authentications.Add(authentication);
             this._dbContext.SaveChanges();
+
+            settings = this.GetNotificationSettings(1);
 
             return registration;
         }

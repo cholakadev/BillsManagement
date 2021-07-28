@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using BillsManagement.DAL.Models;
-    using BillsManagement.DomainModel.User;
 
     public class AutoMapping : Profile
     {
@@ -14,14 +13,14 @@
             CreateMap<Charge, DomainModel.Charge>()
                   .ForMember(destination => destination.ChargeId, options => options.MapFrom(source => source.ChargeId))
                   .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                  .ForMember(destination => destination.ChargeType, options => options.MapFrom(source => source.ChargeType))
+                  .ForMember(destination => destination.ChargeTypeId, options => options.MapFrom(source => source.ChargeType))
                   .ForMember(destination => destination.ChargeDate, options => options.MapFrom(source => source.ChargeDate))
                   .ForMember(destination => destination.DueAmount, options => options.MapFrom(source => source.DueAmount));
 
             CreateMap<DomainModel.Charge, Charge>()
                   .ForMember(destination => destination.ChargeId, options => options.MapFrom(source => source.ChargeId))
                   .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                  .ForMember(destination => destination.ChargeType, options => options.MapFrom(source => source.ChargeType))
+                  .ForMember(destination => destination.ChargeType, options => options.MapFrom(source => source.ChargeTypeId))
                   .ForMember(destination => destination.ChargeDate, options => options.MapFrom(source => source.ChargeDate))
                   .ForMember(destination => destination.DueAmount, options => options.MapFrom(source => source.DueAmount));
 
@@ -37,7 +36,7 @@
                 .ForMember(destination => destination.Email, options => options.MapFrom(source => source.Email))
                 .ForMember(destination => destination.Phone, options => options.MapFrom(source => source.Phone));
 
-            CreateMap<DAL.Models.User, RegisterResponse>()
+            CreateMap<User, DomainModel.RegisterResponse>()
                 .ForMember(destination => destination.Registration, options => options.MapFrom(source => new User
                 {
                     FirstName = source.FirstName,
@@ -47,6 +46,14 @@
                     Email = source.Email,
                     Phone = source.Phone
                 }));
+
+            #endregion
+
+            #region Settings Translators
+
+            CreateMap<NotificationSetting, DomainModel.Settings>()
+                .ForMember(destination => destination.BusinessEmail, options => options.MapFrom(source => source.BusinessEmail))
+                .ForMember(destination => destination.BusinessEmailPassword, options => options.MapFrom(source => source.BusinessEmailPassword));
 
             #endregion
         }

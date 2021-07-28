@@ -12,10 +12,10 @@
         public Guid? UserId { get; set; }
 
         [JsonPropertyName("ChargeTypeId")]
-        public Guid? ChargeType { get; set; }
+        public Guid? ChargeTypeId { get; set; }
 
         [JsonPropertyName("DueAmount")]
-        public decimal? DueAmount { get; set; }
+        public decimal DueAmount { get; set; }
 
         [JsonPropertyName("ChargeDate")]
         public DateTime ChargeDate { get; set; }

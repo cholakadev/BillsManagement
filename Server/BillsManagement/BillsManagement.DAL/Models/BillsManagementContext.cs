@@ -21,6 +21,7 @@ namespace BillsManagement.DAL.Models
         public virtual DbSet<CashAccount> CashAccounts { get; set; }
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<ChargeType> ChargeTypes { get; set; }
+        public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -79,9 +80,9 @@ namespace BillsManagement.DAL.Models
                     .HasColumnType("decimal(7, 4)")
                     .HasDefaultValueSql("((0.0000))");
 
-                entity.HasOne(d => d.ChargeTypeNavigation)
+                entity.HasOne(d => d.ChargeType)
                     .WithMany(p => p.Charges)
-                    .HasForeignKey(d => d.ChargeType)
+                    .HasForeignKey(d => d.ChargeTypeId)
                     .HasConstraintName("FK__Charges__ChargeT__66603565");
 
                 entity.HasOne(d => d.User)
@@ -94,10 +95,18 @@ namespace BillsManagement.DAL.Models
             {
                 entity.Property(e => e.ChargeTypeId).ValueGeneratedNever();
 
-                entity.Property(e => e.ChargeType1)
+                entity.Property(e => e.ChargeTypeName)
                     .IsRequired()
-                    .HasMaxLength(64)
-                    .HasColumnName("ChargeType");
+                    .HasMaxLength(64);
+            });
+
+            modelBuilder.Entity<NotificationSetting>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.BusinessEmail).HasMaxLength(128);
+
+                entity.Property(e => e.BusinessEmailPassword).HasMaxLength(256);
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -40,7 +40,7 @@
             return charge;
         }
 
-        private void UpdateCashAccountBalanceAfterCharge(CashAccount cashAccount, decimal? dueAmount)
+        private void UpdateCashAccountBalanceAfterCharge(CashAccount cashAccount, decimal dueAmount)
         {
             cashAccount.Balance -= dueAmount;
             this._dbContext.Update(cashAccount);
