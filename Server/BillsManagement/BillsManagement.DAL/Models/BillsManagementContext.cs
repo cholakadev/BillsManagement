@@ -117,10 +117,12 @@ namespace BillsManagement.DAL.Models
                 entity.Property(e => e.SecurityTokenId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CreationDate)
-                    .HasColumnType("date")
+                    .HasColumnType("smalldatetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ExpirationDate).HasColumnType("date");
+                entity.Property(e => e.ExpirationDate)
+                    .HasColumnType("smalldatetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.IsExpired).HasDefaultValueSql("((0))");
 

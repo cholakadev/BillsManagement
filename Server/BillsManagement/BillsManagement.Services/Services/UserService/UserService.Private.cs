@@ -14,7 +14,7 @@
     public partial class UserService : IUserService
     {
         public static string Issuer { get; } = Guid.NewGuid().ToString();
-        public static DateTime Expires { get; private set; } = DateTime.UtcNow.AddMinutes(2);
+        public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(15);
 
         private string GenerateJwtToken(Authentication auth, DecryptCriteria criteria, string email)
         {
