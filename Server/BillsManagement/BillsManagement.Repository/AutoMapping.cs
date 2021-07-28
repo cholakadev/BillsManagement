@@ -56,6 +56,27 @@
                 .ForMember(destination => destination.BusinessEmailPassword, options => options.MapFrom(source => source.BusinessEmailPassword));
 
             #endregion
+
+            #region Security Translators
+
+            CreateMap<SecurityToken, DomainModel.SecurityToken>()
+                .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
+                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
+                .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
+                .ForMember(destination => destination.ExpirationDate, options => options.MapFrom(source => source.ExpirationDate))
+                .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))
+                .ForMember(destination => destination.Secret, options => options.MapFrom(source => source.Secret));
+
+
+            CreateMap<DomainModel.SecurityToken, SecurityToken>()
+                .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
+                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
+                .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
+                .ForMember(destination => destination.ExpirationDate, options => options.MapFrom(source => source.ExpirationDate))
+                .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))
+                .ForMember(destination => destination.Secret, options => options.MapFrom(source => source.Secret));
+
+            #endregion
         }
     }
 }

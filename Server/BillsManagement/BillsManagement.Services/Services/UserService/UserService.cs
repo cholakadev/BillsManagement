@@ -23,20 +23,29 @@
         public LoginResponse Login(LoginRequest request)
         {
             var auth = this._repository.GetUserEncryptedPasswordByEmail(request.Email);
+            var token = this._repository.GetSecurityTokenByUserId(auth.UserId);
 
-            var criteria = new DecryptCriteria()
+            var criteria = new DecryptCriteria() { Password = auth.Password };
+
+            LoginResponse response = new LoginResponse();
+
+            if (token == null || token.IsExpired == true)
             {
-                Password = auth.Password,
-                Secret = this._securitySettings.JWT_Secret
-            };
+                criteria.Secret = this._securitySettings.JWT_Secret;
+                response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
+            }
+
+            if (token != null && token.IsExpired == false)
+            {
+                criteria.Secret = token.Secret;
+                response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
+            }
 
             if (request.Password != PasswordCipher.Decrypt(criteria) || auth == null)
             {
                 throw new Exception("Authentication failed.");
             }
 
-            LoginResponse response = new LoginResponse();
-            response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
             return response;
         }
 

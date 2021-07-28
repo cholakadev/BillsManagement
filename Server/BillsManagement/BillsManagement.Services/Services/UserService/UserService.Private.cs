@@ -38,7 +38,28 @@
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
             //var token = tokenHandler.WriteToken(securityToken);
+
+            var token = new DomainModel.SecurityToken()
+            {
+                ExpirationDate = Expires,
+                Secret = criteria.Secret,
+                UserId = auth.UserId,
+                SecurityToken1 = securityToken
+            };
+
+            this._repository.UpdateToken(token);
+
             return securityToken;
+        }
+
+        private void ValidateJwtToken(Guid userId)
+        {
+            DomainModel.SecurityToken token = this._repository.GetSecurityTokenByUserId(userId);
+
+            if (DateTime.UtcNow >= token.ExpirationDate)
+            {
+                throw new Exception("Session expired.");
+            }
         }
 
         private void SendRegisterNotificationOnEmail(DomainModel.Registration registration, DomainModel.Settings settings)

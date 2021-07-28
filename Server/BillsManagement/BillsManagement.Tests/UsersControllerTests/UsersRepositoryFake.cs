@@ -1,14 +1,25 @@
 ﻿using BillsManagement.DAL.Models;
 using BillsManagement.DomainModel;
 using BillsManagement.Repository.RepositoryContracts;
+using System;
 
 namespace BillsManagement.Tests.UsersControllerTests
 {
     public class UsersRepositoryFake : IUserRepository
     {
+        public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Authentication GetUserEncryptedPasswordByEmail(string email)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Guid GetUserInformation(string email)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsExistingUser(string email)
@@ -24,6 +35,11 @@ namespace BillsManagement.Tests.UsersControllerTests
         public Registration Register(string email, string password, out Settings settings)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void UpdateToken(DomainModel.SecurityToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

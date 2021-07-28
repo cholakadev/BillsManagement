@@ -54,5 +54,14 @@
 
             return settings;
         }
+
+        internal DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId)
+        {
+            SecurityToken token = this._dbContext.SecurityTokens
+                .FirstOrDefault(x => x.IsExpired == false & x.UserId == userId);
+            DomainModel.SecurityToken mappedToken = this._mapper.Map<SecurityToken, DomainModel.SecurityToken>(token);
+
+            return mappedToken;
+        }
     }
 }

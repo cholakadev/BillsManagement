@@ -27,6 +27,10 @@
             return auth;
         }
 
+        public Guid GetUserInformation(string email)
+            => this._dbContext.Users
+                .FirstOrDefault(x => x.Email == email).UserId;
+
         public bool IsExistingUser(string email)
         {
             User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
@@ -69,5 +73,15 @@
 
             return registration;
         }
+
+        public void UpdateToken(DomainModel.SecurityToken token)
+        {
+            var mappedToken = this._mapper.Map<DomainModel.SecurityToken, SecurityToken>(token);
+            this._dbContext.SecurityTokens.Add(mappedToken);
+            this._dbContext.SaveChanges();
+        }
+
+        DomainModel.SecurityToken IUserRepository.GetSecurityTokenByUserId(Guid userId)
+            => this.GetSecurityTokenByUserId(userId);
     }
 }

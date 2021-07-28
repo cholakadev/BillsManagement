@@ -124,6 +124,10 @@ namespace BillsManagement.DAL.Models
 
                 entity.Property(e => e.IsExpired).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.Secret)
+                    .IsRequired()
+                    .HasMaxLength(32);
+
                 entity.Property(e => e.SecurityToken1)
                     .IsRequired()
                     .HasMaxLength(1024)
