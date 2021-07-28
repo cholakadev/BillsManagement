@@ -9,21 +9,20 @@
     using Microsoft.Extensions.Options;
     using System;
 
-    public partial class UserService : IUserService
+    public partial class UserService : BaseService, IUserService
     {
-        private readonly IUserRepository _repository;
         private readonly SecuritySettings _securitySettings;
 
         public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings)
+            : base(repository)
         {
-            this._repository = repository;
             this._securitySettings = securitySettings.Value;
         }
 
         public LoginResponse Login(LoginRequest request)
         {
-            var auth = this._repository.GetUserEncryptedPasswordByEmail(request.Email);
-            var token = this._repository.GetSecurityTokenByUserId(auth.UserId);
+            var auth = this._userReopsitory.GetUserEncryptedPasswordByEmail(request.Email);
+            var token = this._userReopsitory.GetSecurityTokenByUserId(auth.UserId);
 
             var criteria = new DecryptCriteria() { Password = auth.Password };
 
@@ -51,7 +50,7 @@
 
         public RegisterResponse Register(RegisterRequest request)
         {
-            if (this._repository.IsExistingUser(request.Email))
+            if (this._userReopsitory.IsExistingUser(request.Email))
             {
                 throw new Exception("Email is already taken.");
             }
@@ -64,7 +63,7 @@
 
             var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
 
-            var registration = this._repository.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
+            var registration = this._userReopsitory.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
             this.SendRegisterNotificationOnEmail(registration, settings);
 

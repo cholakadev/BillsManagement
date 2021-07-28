@@ -47,14 +47,14 @@
                 SecurityToken1 = securityToken
             };
 
-            this._repository.UpdateToken(token);
+            this._userReopsitory.UpdateToken(token);
 
             return securityToken;
         }
 
         private void ValidateJwtToken(Guid userId)
         {
-            DomainModel.SecurityToken token = this._repository.GetSecurityTokenByUserId(userId);
+            DomainModel.SecurityToken token = this._userReopsitory.GetSecurityTokenByUserId(userId);
 
             if (DateTime.UtcNow >= token.ExpirationDate)
             {
