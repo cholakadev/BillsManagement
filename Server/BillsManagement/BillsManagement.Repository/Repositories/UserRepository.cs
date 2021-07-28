@@ -77,7 +77,16 @@
         public void UpdateToken(DomainModel.SecurityToken token)
         {
             var mappedToken = this._mapper.Map<DomainModel.SecurityToken, SecurityToken>(token);
+
             this._dbContext.SecurityTokens.Add(mappedToken);
+            foreach (var securityToken in this._dbContext.SecurityTokens.Where(x => x.SecurityTokenId != mappedToken.SecurityTokenId))
+            {
+                if (securityToken.UserId == token.UserId)
+                {
+                    securityToken.IsExpired = true;
+                }
+            };
+
             this._dbContext.SaveChanges();
         }
 
