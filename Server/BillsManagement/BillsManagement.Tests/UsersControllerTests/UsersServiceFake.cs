@@ -1,4 +1,5 @@
-﻿using BillsManagement.DomainModel.User;
+﻿using BillsManagement.DomainModel;
+using BillsManagement.DomainModel.User;
 using BillsManagement.Services.ServiceContracts;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,7 +16,7 @@ namespace BillsManagement.Tests.UsersControllerTests
             //this._repository = new ChargesRepositoryFake();
         }
 
-        public LoginResponse Login(LoginRequest request)
+        public DomainModel.LoginResponse Login(LoginRequest request)
         {
             LoginResponse response = new LoginResponse();
 

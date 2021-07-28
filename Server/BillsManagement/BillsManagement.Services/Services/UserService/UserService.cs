@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
-    using AutoMapper;
     using BillsManagement.DAL.Settings;
     using BillsManagement.DomainModel;
     using BillsManagement.DomainModel.User;
@@ -14,13 +13,11 @@
     {
         private readonly IUserRepository _repository;
         private readonly SecuritySettings _securitySettings;
-        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings, IMapper mapper)
+        public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings)
         {
             this._repository = repository;
             this._securitySettings = securitySettings.Value;
-            this._mapper = mapper;
         }
 
         public LoginResponse Login(LoginRequest request)
@@ -56,13 +53,9 @@
                 Secret = this._securitySettings.JWT_Secret
             };
 
-            var registerRequest = new Registration()
-            {
-                Email = request.Email,
-            };
             var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
 
-            var registration = this._repository.Register(registerRequest, encryptedPassword, out DomainModel.Settings settings);
+            var registration = this._repository.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
             this.SendRegisterNotificationOnEmail(registration, settings);
 

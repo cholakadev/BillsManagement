@@ -4,7 +4,7 @@
 
     public interface IUserRepository
     {
-        DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password, out DomainModel.Settings settings);
+        DomainModel.Registration Register(string email, string password, out DomainModel.Settings settings);
 
         bool IsExistingUser(string email);
 

@@ -39,9 +39,9 @@
             return true;
         }
 
-        public DomainModel.Registration Register(DomainModel.Registration registrationRequest, string password, out DomainModel.Settings settings)
+        public DomainModel.Registration Register(string email, string password, out DomainModel.Settings settings)
         {
-            if (registrationRequest == null && password == String.Empty)
+            if (email == null || email == String.Empty || password == String.Empty)
             {
                 throw new Exception("Invalid request data.");
             }
@@ -49,7 +49,7 @@
             User user = new User()
             {
                 UserId = Guid.NewGuid(),
-                Email = registrationRequest.Email
+                Email = email
             };
 
             Authentication authentication = new Authentication()

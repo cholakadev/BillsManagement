@@ -26,9 +26,9 @@
                     new Claim("UserId", auth.UserId.ToString()),
                     new Claim("Email", email),
                     new Claim("SecretGuid", Guid.NewGuid().ToString()),
-                    new Claim("GenerateDate", tokenGenerateTime.ToString())
+                    new Claim("GenerateDate", tokenGenerateTime.ToString()),
+                    new Claim("Expires", Expires.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(
                      Encoding.UTF8

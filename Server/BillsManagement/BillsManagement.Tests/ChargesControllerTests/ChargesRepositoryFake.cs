@@ -19,7 +19,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
                 {
                     ChargeId = Guid.NewGuid(),
                     ChargeDate = DateTime.Now,
-                    ChargeType = Guid.NewGuid(),
+                    ChargeTypeId = Guid.NewGuid(),
                     DueAmount = 12.20M,
                     UserId = Guid.NewGuid()
                 },
@@ -27,7 +27,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
                 {
                     ChargeId = Guid.NewGuid(),
                     ChargeDate = DateTime.Now,
-                    ChargeType = Guid.NewGuid(),
+                    ChargeTypeId = Guid.NewGuid(),
                     DueAmount = 17.4000M,
                     UserId = Guid.NewGuid()
                 },
@@ -35,7 +35,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
                 {
                     ChargeId = Guid.NewGuid(),
                     ChargeDate = DateTime.Now,
-                    ChargeType = Guid.NewGuid(),
+                    ChargeTypeId = Guid.NewGuid(),
                     DueAmount = 23M,
                     UserId = Guid.NewGuid()
                 },
@@ -43,7 +43,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
                 {
                     ChargeId = Guid.NewGuid(),
                     ChargeDate = DateTime.Now,
-                    ChargeType = Guid.NewGuid(),
+                    ChargeTypeId = Guid.NewGuid(),
                     DueAmount = 83.50M,
                     UserId = Guid.NewGuid()
                 }
