@@ -11,6 +11,9 @@
 
     public partial class UserService : IUserService
     {
+        public static string Issuer { get; } = Guid.NewGuid().ToString();
+        public static DateTime Expires { get; private set; } = DateTime.UtcNow.AddMinutes(2);
+
         private string GenerateJwtToken(Authentication auth, DecryptCriteria criteria, string email)
         {
             var tokenGenerateTime = DateTime.Now;
@@ -31,9 +34,9 @@
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(securityToken);
-            return token;
+            var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
+            //var token = tokenHandler.WriteToken(securityToken);
+            return securityToken;
         }
     }
 }

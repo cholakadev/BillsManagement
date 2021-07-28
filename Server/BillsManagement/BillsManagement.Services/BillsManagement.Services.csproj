@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Postmark" Version="4.5.2" />
   </ItemGroup>
 
 </Project>
