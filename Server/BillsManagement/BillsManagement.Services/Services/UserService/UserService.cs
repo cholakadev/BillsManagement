@@ -21,30 +21,19 @@
 
         public LoginResponse Login(LoginRequest request)
         {
-            var auth = this._userRepository.GetUserEncryptedPasswordByEmail(request.Email);
-            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(auth.UserId);
+            DomainModel.Authentication auth = this._userRepository
+                .GetUserEncryptedPasswordByEmail(request.Email);
 
-            var criteria = new DecryptCriteria()
-            {
-                Password = auth.Password,
-                Secret = this._securitySettings.JWT_Secret
-            };
+            DomainModel.SecurityToken token = this._userRepository
+                .GetSecurityTokenByUserId(auth.UserId);
+
+            PasswordCipher.Decrypt(auth.Password, request.Password);
 
             LoginResponse response = new LoginResponse();
 
-            if (token != null || token.IsExpired == false)
-            {
-                response.Token = token.SecurityToken1;
-            }
-            else
-            {
-                response.Token = this.GenerateJwtToken(auth, request.Email);
-            }
-
-            if (request.Password != PasswordCipher.Decrypt(criteria) || auth == null)
-            {
-                throw new Exception("Authentication failed.");
-            }
+            response.Token = (token == null || token.IsExpired == true) ?
+                              this.GenerateJwtToken(auth, request.Email) :
+                              token.SecurityToken1;
 
             return response;
         }
@@ -56,14 +45,10 @@
                 throw new Exception("Email is already taken.");
             }
 
-            var encryptCriteria = new EncryptCriteria()
-            {
-                Password = request.Password,
-                Secret = this._securitySettings.JWT_Secret
-            };
+            var encryptedPassword = PasswordCipher.Encrypt(request.Password);
 
-            var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
-            var registration = this._userRepository.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
+            var registration = this._userRepository
+                .Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
             this.SendRegisterNotificationOnEmail(registration, settings);
 

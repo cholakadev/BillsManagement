@@ -7,14 +7,16 @@
 
     public static class PasswordCipher
     {
-        public static string Encrypt(EncryptCriteria criteria)
+        private const string Secret = "3319FBA22A224DC8833A83B769037D53";
+
+        public static string Encrypt(string password)
         {
             byte[] iv = new byte[16];
             byte[] array;
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(criteria.Secret);
+                aes.Key = Encoding.UTF8.GetBytes(Secret);
                 aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -25,7 +27,7 @@
                     {
                         using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
                         {
-                            streamWriter.Write(criteria.Password);
+                            streamWriter.Write(password);
                         }
 
                         array = memoryStream.ToArray();
@@ -36,14 +38,14 @@
             return Convert.ToBase64String(array);
         }
 
-        public static string Decrypt(DecryptCriteria criteria)
+        public static void Decrypt(string password, string requestedPassword)
         {
             byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(criteria.Password);
+            byte[] buffer = Convert.FromBase64String(password);
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(criteria.Secret);
+                aes.Key = Encoding.UTF8.GetBytes(Secret);
                 aes.IV = iv;
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
@@ -53,7 +55,12 @@
                     {
                         using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
                         {
-                            return streamReader.ReadToEnd();
+                            var decryptedPassword = streamReader.ReadToEnd();
+
+                            if (decryptedPassword != requestedPassword)
+                            {
+                                throw new Exception("Incorrect password.");
+                            }
                         }
                     }
                 }

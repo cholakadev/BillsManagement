@@ -26,6 +26,11 @@
             var auth = this._dbContext.Authentications
                 .FirstOrDefault(x => x.UserId == databaseUser.UserId);
 
+            if (auth == null)
+            {
+                throw new Exception("Unouthorized");
+            }
+
             var mappedAuth = this._mapper.Map<Authentication, DomainModel.Authentication>(auth);
 
             return mappedAuth;
