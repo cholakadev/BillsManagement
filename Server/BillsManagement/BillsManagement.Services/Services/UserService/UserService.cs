@@ -21,8 +21,8 @@
 
         public LoginResponse Login(LoginRequest request)
         {
-            var auth = this._userReopsitory.GetUserEncryptedPasswordByEmail(request.Email);
-            var token = this._userReopsitory.GetSecurityTokenByUserId(auth.UserId);
+            var auth = this._userRepository.GetUserEncryptedPasswordByEmail(request.Email);
+            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(auth.UserId);
 
             var criteria = new DecryptCriteria() { Password = auth.Password };
 
@@ -50,7 +50,7 @@
 
         public RegisterResponse Register(RegisterRequest request)
         {
-            if (this._userReopsitory.IsExistingUser(request.Email))
+            if (this._userRepository.IsExistingUser(request.Email))
             {
                 throw new Exception("Email is already taken.");
             }
@@ -63,7 +63,7 @@
 
             var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
 
-            var registration = this._userReopsitory.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
+            var registration = this._userRepository.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
             this.SendRegisterNotificationOnEmail(registration, settings);
 

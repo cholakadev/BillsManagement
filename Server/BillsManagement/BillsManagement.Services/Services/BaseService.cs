@@ -5,16 +5,16 @@
 
     public class BaseService
     {
-        internal readonly IUserRepository _userReopsitory; // BaseRepository
+        internal readonly IUserRepository _userRepository; // BaseRepository
 
         public BaseService(IUserRepository userRepository)
         {
-            this._userReopsitory = userRepository;
+            this._userRepository = userRepository;
         }
 
         void ValidateJwtToken(Guid userId)
         {
-            DomainModel.SecurityToken token = this._userReopsitory.GetSecurityTokenByUserId(userId);
+            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
 
             if (token.ExpirationDate <= DateTime.Now)
             {

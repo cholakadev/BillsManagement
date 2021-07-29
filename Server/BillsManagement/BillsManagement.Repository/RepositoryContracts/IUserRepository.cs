@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
-    using BillsManagement.DAL.Models;
     using System;
 
     public interface IUserRepository
@@ -9,7 +8,7 @@
 
         bool IsExistingUser(string email);
 
-        Authentication GetUserEncryptedPasswordByEmail(string email);
+        DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email);
 
         DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId);
 

@@ -1,5 +1,4 @@
-﻿using BillsManagement.DAL.Models;
-using BillsManagement.DomainModel;
+﻿using BillsManagement.DomainModel;
 using BillsManagement.Repository.RepositoryContracts;
 using System;
 
@@ -12,7 +11,7 @@ namespace BillsManagement.Tests.UsersControllerTests
             throw new NotImplementedException();
         }
 
-        public Authentication GetUserEncryptedPasswordByEmail(string email)
+        public DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email)
         {
             throw new System.NotImplementedException();
         }

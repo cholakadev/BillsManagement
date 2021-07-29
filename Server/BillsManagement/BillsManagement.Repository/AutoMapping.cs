@@ -36,6 +36,10 @@
                 .ForMember(destination => destination.Email, options => options.MapFrom(source => source.Email))
                 .ForMember(destination => destination.Phone, options => options.MapFrom(source => source.Phone));
 
+            CreateMap<Authentication, DomainModel.Authentication>()
+                .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
+                .ForMember(destination => destination.Password, options => options.MapFrom(source => source.Password));
+
             CreateMap<User, DomainModel.RegisterResponse>()
                 .ForMember(destination => destination.Registration, options => options.MapFrom(source => new User
                 {

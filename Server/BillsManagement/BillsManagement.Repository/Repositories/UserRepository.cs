@@ -14,7 +14,7 @@
 
         }
 
-        public Authentication GetUserEncryptedPasswordByEmail(string email)
+        public DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email)
         {
             var databaseUser = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
 
@@ -23,8 +23,12 @@
                 throw new Exception("User does not exist");
             }
 
-            var auth = this._dbContext.Authentications.FirstOrDefault(x => x.UserId == databaseUser.UserId);
-            return auth;
+            var auth = this._dbContext.Authentications
+                .FirstOrDefault(x => x.UserId == databaseUser.UserId);
+
+            var mappedAuth = this._mapper.Map<Authentication, DomainModel.Authentication>(auth);
+
+            return mappedAuth;
         }
 
         public Guid GetUserInformation(string email)
