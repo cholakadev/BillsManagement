@@ -46,22 +46,54 @@
                 SecurityToken1 = securityToken
             };
 
-            this._userRepository.UpdateToken(token);
+            //this._userRepository.UpdateToken(token);
 
             return securityToken;
         }
 
-        private void ValidateJwtToken(Guid userId)
+        private string GetValidatedToken(DomainModel.TokenValidator tokenValidator)
         {
-            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
+            DomainModel.SecurityToken securityToken = new DomainModel.SecurityToken();
 
-            if (DateTime.UtcNow >= token.ExpirationDate)
+            if (tokenValidator.SecurityToken == null)
             {
-                throw new Exception("Session expired.");
+                var token = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
+
+                securityToken.SecurityToken1 = token;
+                securityToken.Secret = Secret;
+                securityToken.ExpirationDate = Expires;
+                securityToken.UserId = tokenValidator.Authentication.UserId;
+
+                this._authenticationRepository.SaveToken(securityToken);
             }
+            if (tokenValidator.SecurityToken.ExpirationDate <= DateTime.Now)
+            {
+                this.RefreshToken(securityToken, tokenValidator);
+            }
+
+            return securityToken.SecurityToken1;
         }
 
-        private void SendRegisterNotificationOnEmail(DomainModel.Registration registration, DomainModel.Settings settings)
+        private void RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.TokenValidator tokenValidator)
+        {
+            this.ValidateToken(securityToken);
+
+            string refreshedSecurityToken = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
+
+            securityToken.SecurityToken1 = refreshedSecurityToken;
+            securityToken.Secret = Secret;
+            securityToken.ExpirationDate = Expires;
+            securityToken.UserId = tokenValidator.Authentication.UserId;
+
+            this._authenticationRepository.UpdateToken(securityToken);
+        }
+
+        private void ValidateToken(DomainModel.SecurityToken token)
+        {
+
+        }
+
+        private void SendRegisterNotificationEmail(DomainModel.Registration registration, DomainModel.Settings settings)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<html><body>");
@@ -72,7 +104,7 @@
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(settings.BusinessEmail);
-                mail.To.Add("cholakovge@gmail.com");
+                mail.To.Add(registration.Email);
                 mail.Subject = "Registration confirmed!";
                 mail.Body = sb.ToString();
                 mail.IsBodyHtml = true;

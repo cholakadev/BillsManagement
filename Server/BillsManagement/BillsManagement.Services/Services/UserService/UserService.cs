@@ -13,8 +13,8 @@
     {
         private readonly SecuritySettings _securitySettings;
 
-        public UserService(IUserRepository repository, IOptions<SecuritySettings> securitySettings)
-            : base(repository)
+        public UserService(IUserRepository userRepository, IAuthenticationRepository authenticationRepository, IOptions<SecuritySettings> securitySettings)
+            : base(userRepository, authenticationRepository)
         {
             this._securitySettings = securitySettings.Value;
         }
@@ -24,16 +24,22 @@
             DomainModel.Authentication auth = this._userRepository
                 .GetUserEncryptedPasswordByEmail(request.Email);
 
+            PasswordCipher.Decrypt(auth.Password, request.Password);
+
             DomainModel.SecurityToken token = this._userRepository
                 .GetSecurityTokenByUserId(auth.UserId);
 
-            PasswordCipher.Decrypt(auth.Password, request.Password);
+            DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator()
+            {
+                SecurityToken = token,
+                Authentication = auth,
+                Email = request.Email
+            };
 
-            LoginResponse response = new LoginResponse();
+            var securityToken = this.GetValidatedToken(tokenValidator);
 
-            response.Token = (token == null || token.IsExpired == true) ?
-                              this.GenerateJwtToken(auth, request.Email) :
-                              token.SecurityToken1;
+            DomainModel.LoginResponse response = new DomainModel.LoginResponse();
+            response.Token = securityToken;
 
             return response;
         }
@@ -50,7 +56,7 @@
             var registration = this._userRepository
                 .Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
-            this.SendRegisterNotificationOnEmail(registration, settings);
+            this.SendRegisterNotificationEmail(registration, settings);
 
             RegisterResponse response = new RegisterResponse();
             response.Registration = registration;

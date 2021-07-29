@@ -58,6 +58,7 @@
             // Repository configurations
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IChargesRepository, ChargesRepository>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
             // Service configurations
             services.AddScoped<IUserService, UserService>();

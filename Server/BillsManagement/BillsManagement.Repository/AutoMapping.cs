@@ -36,6 +36,13 @@
                 .ForMember(destination => destination.Email, options => options.MapFrom(source => source.Email))
                 .ForMember(destination => destination.Phone, options => options.MapFrom(source => source.Phone));
 
+            CreateMap<DomainModel.SecurityToken, SecurityToken>()
+                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
+                .ForMember(destination => destination.Secret, options => options.MapFrom(source => source.Secret))
+                .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))
+                .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
+                .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId));
+
             CreateMap<Authentication, DomainModel.Authentication>()
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
                 .ForMember(destination => destination.Password, options => options.MapFrom(source => source.Password));
