@@ -62,7 +62,6 @@
             };
 
             var encryptedPassword = PasswordCipher.Encrypt(encryptCriteria);
-
             var registration = this._userRepository.Register(request.Email, encryptedPassword, out DomainModel.Settings settings);
 
             this.SendRegisterNotificationOnEmail(registration, settings);
