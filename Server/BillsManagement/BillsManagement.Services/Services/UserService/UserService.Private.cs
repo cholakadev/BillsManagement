@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
-    using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.IdentityModel.Tokens;
     using System;
@@ -14,8 +13,9 @@
     {
         public static string Issuer { get; } = Guid.NewGuid().ToString();
         public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(15);
+        private static string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
-        private string GenerateJwtToken(DomainModel.Authentication auth, DecryptCriteria criteria, string email)
+        private string GenerateJwtToken(DomainModel.Authentication auth, string email)
         {
             var tokenGenerateTime = DateTime.Now;
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -31,7 +31,7 @@
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(
                      Encoding.UTF8
-                     .GetBytes(criteria.Secret)), SecurityAlgorithms.HmacSha256Signature)
+                     .GetBytes(Secret)), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -41,7 +41,7 @@
             var token = new DomainModel.SecurityToken()
             {
                 ExpirationDate = Expires,
-                Secret = criteria.Secret,
+                Secret = Secret,
                 UserId = auth.UserId,
                 SecurityToken1 = securityToken
             };

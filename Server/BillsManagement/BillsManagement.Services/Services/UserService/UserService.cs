@@ -24,20 +24,21 @@
             var auth = this._userRepository.GetUserEncryptedPasswordByEmail(request.Email);
             DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(auth.UserId);
 
-            var criteria = new DecryptCriteria() { Password = auth.Password };
+            var criteria = new DecryptCriteria()
+            {
+                Password = auth.Password,
+                Secret = this._securitySettings.JWT_Secret
+            };
 
             LoginResponse response = new LoginResponse();
 
-            if (token == null || token.IsExpired == true)
+            if (token != null || token.IsExpired == false)
             {
-                criteria.Secret = this._securitySettings.JWT_Secret;
-                response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
+                response.Token = token.SecurityToken1;
             }
-
-            if (token != null && token.IsExpired == false)
+            else
             {
-                criteria.Secret = token.Secret;
-                response.Token = this.GenerateJwtToken(auth, criteria, request.Email);
+                response.Token = this.GenerateJwtToken(auth, request.Email);
             }
 
             if (request.Password != PasswordCipher.Decrypt(criteria) || auth == null)
