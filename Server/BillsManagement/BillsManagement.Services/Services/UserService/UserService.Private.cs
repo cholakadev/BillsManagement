@@ -36,7 +36,6 @@
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
-            //var token = tokenHandler.WriteToken(securityToken);
 
             var token = new DomainModel.SecurityToken()
             {
@@ -46,46 +45,46 @@
                 SecurityToken1 = securityToken
             };
 
-            //this._userRepository.UpdateToken(token);
-
             return securityToken;
         }
 
         private string GetValidatedToken(DomainModel.TokenValidator tokenValidator)
         {
             DomainModel.SecurityToken securityToken = new DomainModel.SecurityToken();
+            securityToken.Secret = Secret;
+            securityToken.ExpirationDate = Expires;
+            securityToken.UserId = tokenValidator.Authentication.UserId;
 
             if (tokenValidator.SecurityToken == null)
             {
                 var token = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
 
                 securityToken.SecurityToken1 = token;
-                securityToken.Secret = Secret;
-                securityToken.ExpirationDate = Expires;
-                securityToken.UserId = tokenValidator.Authentication.UserId;
 
                 this._authenticationRepository.SaveToken(securityToken);
             }
-            if (tokenValidator.SecurityToken.ExpirationDate <= DateTime.Now)
+            if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
             {
-                this.RefreshToken(securityToken, tokenValidator);
+                string refreshedSecurityToken = this.RefreshToken(securityToken, tokenValidator);
+                securityToken.SecurityToken1 = refreshedSecurityToken;
             }
+
+            // What if token is not null and is not expired?
 
             return securityToken.SecurityToken1;
         }
 
-        private void RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.TokenValidator tokenValidator)
+        private string RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.TokenValidator tokenValidator)
         {
             this.ValidateToken(securityToken);
 
             string refreshedSecurityToken = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
 
             securityToken.SecurityToken1 = refreshedSecurityToken;
-            securityToken.Secret = Secret;
-            securityToken.ExpirationDate = Expires;
-            securityToken.UserId = tokenValidator.Authentication.UserId;
 
             this._authenticationRepository.UpdateToken(securityToken);
+
+            return refreshedSecurityToken;
         }
 
         private void ValidateToken(DomainModel.SecurityToken token)
