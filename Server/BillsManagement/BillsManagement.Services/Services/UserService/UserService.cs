@@ -29,11 +29,11 @@
             DomainModel.SecurityToken token = this._userRepository
                 .GetSecurityTokenByUserId(auth.UserId);
 
+            auth.Email = request.Email;
             DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator()
             {
                 SecurityToken = token,
-                Authentication = auth,
-                Email = request.Email
+                Authentication = auth
             };
 
             var securityToken = this.GetValidatedToken(tokenValidator);

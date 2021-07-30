@@ -15,7 +15,7 @@
         public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(15);
         private static string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
-        private string GenerateJwtToken(DomainModel.Authentication auth, string email)
+        private string GenerateJwtToken(DomainModel.Authentication auth)
         {
             var tokenGenerateTime = DateTime.Now;
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -23,7 +23,7 @@
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("UserId", auth.UserId.ToString()),
-                    new Claim("Email", email),
+                    new Claim("Email", auth.Email),
                     new Claim("SecretGuid", Guid.NewGuid().ToString()),
                     new Claim("GenerateDate", tokenGenerateTime.ToString()),
                     new Claim("Expires", Expires.ToString())
@@ -51,13 +51,14 @@
         private string GetValidatedToken(DomainModel.TokenValidator tokenValidator)
         {
             DomainModel.SecurityToken securityToken = new DomainModel.SecurityToken();
+            securityToken.SecurityToken1 = tokenValidator.SecurityToken.SecurityToken1;
             securityToken.Secret = Secret;
             securityToken.ExpirationDate = Expires;
             securityToken.UserId = tokenValidator.Authentication.UserId;
 
             if (tokenValidator.SecurityToken == null)
             {
-                var token = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
+                var token = this.GenerateJwtToken(tokenValidator.Authentication);
 
                 securityToken.SecurityToken1 = token;
 
@@ -69,8 +70,6 @@
                 securityToken.SecurityToken1 = refreshedSecurityToken;
             }
 
-            // What if token is not null and is not expired?
-
             return securityToken.SecurityToken1;
         }
 
@@ -78,7 +77,7 @@
         {
             this.ValidateToken(securityToken);
 
-            string refreshedSecurityToken = this.GenerateJwtToken(tokenValidator.Authentication, tokenValidator.Email);
+            string refreshedSecurityToken = this.GenerateJwtToken(tokenValidator.Authentication);
 
             securityToken.SecurityToken1 = refreshedSecurityToken;
 
