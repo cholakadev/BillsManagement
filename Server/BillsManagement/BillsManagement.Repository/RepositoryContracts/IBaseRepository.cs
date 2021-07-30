@@ -3,7 +3,7 @@ using System;
 
 namespace BillsManagement.Repository.RepositoryContracts
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<T> where T : class
     {
         public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId);
 

@@ -1,10 +1,9 @@
 ﻿using BillsManagement.DomainModel;
-using BillsManagement.Repository.RepositoryContracts;
 using System;
 
 namespace BillsManagement.Tests.UsersControllerTests
 {
-    public class UsersRepositoryFake : IUserRepository
+    public class UsersRepositoryFake //: IUserRepository
     {
         public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId)
         {

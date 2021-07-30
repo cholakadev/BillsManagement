@@ -7,12 +7,11 @@
 
     public partial class ChargesService : IChargesService
     {
-        private readonly IChargesRepository _repository;
+        private readonly IChargesRepository _chargesRepository;
 
-        public ChargesService(IChargesRepository repository)//, IUserRepository userRepository, IAuthenticationRepository authenticationRepository)
-        //: base(userRepository, authenticationRepository)
+        public ChargesService(IChargesRepository chargesRepository)
         {
-            this._repository = repository;
+            this._chargesRepository = chargesRepository;
         }
 
         public GenerateChargeResponse GenerateCharge(GenerateChargeRequest request)
@@ -26,7 +25,7 @@
                 UserId = request.UserId
             };
 
-            var generatedCharge = this._repository.GenerateCharge(charge);
+            var generatedCharge = this._chargesRepository.GenerateCharge(charge);
             GenerateChargeResponse response = new GenerateChargeResponse();
             response.Charge = generatedCharge;
             return response;
@@ -35,7 +34,7 @@
         public GetChargesResponse GetCharges()
         {
             GetChargesResponse response = new GetChargesResponse();
-            response.Charges = this._repository.GetCharges();
+            response.Charges = this._chargesRepository.GetCharges();
             return response;
         }
 

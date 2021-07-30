@@ -12,7 +12,7 @@
     public partial class UserService : IUserService
     {
         public static string Issuer { get; } = Guid.NewGuid().ToString();
-        public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(45);
+        public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(2);
         private static string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
         private string GenerateJwtToken(DomainModel.Authentication auth)

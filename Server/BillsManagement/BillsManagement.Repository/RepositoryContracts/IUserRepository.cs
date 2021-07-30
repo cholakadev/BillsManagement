@@ -1,8 +1,9 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
+    using BillsManagement.DAL.Models;
     using System;
 
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
         DomainModel.Registration Register(string email, string password, out DomainModel.Settings settings);
 

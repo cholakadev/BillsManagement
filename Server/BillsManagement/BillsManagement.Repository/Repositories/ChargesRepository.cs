@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class ChargesRepository : BaseRepository, IChargesRepository
+    public class ChargesRepository : BaseRepository<Charge>, IChargesRepository
     {
         public ChargesRepository(BillsManagementContext dbContext, IMapper mapper)
             : base(dbContext, mapper)

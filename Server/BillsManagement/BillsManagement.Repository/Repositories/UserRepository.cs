@@ -6,7 +6,7 @@
     using System;
     using System.Linq;
 
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(BillsManagementContext dbContext, IMapper mapper)
             : base(dbContext, mapper)

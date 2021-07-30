@@ -5,7 +5,7 @@
     using BillsManagement.Repository.RepositoryContracts;
     using System.Linq;
 
-    public class AuthenticationRepository : BaseRepository, IAuthenticationRepository
+    public class AuthenticationRepository : BaseRepository<Authentication>, IAuthenticationRepository
     {
         public AuthenticationRepository(BillsManagementContext dbContext, IMapper mapper)
             : base(dbContext, mapper)

@@ -1,12 +1,11 @@
 ﻿using BillsManagement.DomainModel;
-using BillsManagement.Repository.RepositoryContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BillsManagement.Tests.ChargesControllerTests
 {
-    public class ChargesRepositoryFake : IChargesRepository
+    public class ChargesRepositoryFake// : IChargesRepository
     {
         private readonly List<DomainModel.Charge> _charges;
         //private readonly IMapper _mapper;

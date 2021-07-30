@@ -1,22 +1,21 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
-    using BillsManagement.DAL.Settings;
     using BillsManagement.DomainModel;
     using BillsManagement.DomainModel.User;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
-    using Microsoft.Extensions.Options;
     using System;
 
-    public partial class UserService : BaseService, IUserService
+    public partial class UserService : IUserService
     {
-        private readonly SecuritySettings _securitySettings;
+        private readonly IUserRepository _userRepository;
+        private readonly IAuthenticationRepository _authenticationRepository;
 
-        public UserService(IUserRepository userRepository, IAuthenticationRepository authenticationRepository, IOptions<SecuritySettings> securitySettings)
-            : base(userRepository, authenticationRepository)
+        public UserService(IUserRepository userRepository, IAuthenticationRepository authenticationRepository)
         {
-            this._securitySettings = securitySettings.Value;
+            this._userRepository = userRepository;
+            this._authenticationRepository = authenticationRepository;
         }
 
         public LoginResponse Login(LoginRequest request)
