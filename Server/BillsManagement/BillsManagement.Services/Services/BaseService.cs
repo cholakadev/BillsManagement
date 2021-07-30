@@ -1,7 +1,6 @@
 ﻿namespace BillsManagement.Services.Services
 {
     using BillsManagement.Repository.RepositoryContracts;
-    using System;
 
     public class BaseService
     {
@@ -12,16 +11,6 @@
         {
             this._userRepository = userRepository;
             this._authenticationRepository = authenticationRepository;
-        }
-
-        void ValidateJwtToken(Guid userId)
-        {
-            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
-
-            if (token.ExpirationDate <= DateTime.Now)
-            {
-                throw new Exception("Session expired.");
-            }
         }
     }
 }

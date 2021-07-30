@@ -9,7 +9,8 @@
     {
         private readonly IChargesRepository _repository;
 
-        public ChargesService(IChargesRepository repository)
+        public ChargesService(IChargesRepository repository)//, IUserRepository userRepository, IAuthenticationRepository authenticationRepository)
+        //: base(userRepository, authenticationRepository)
         {
             this._repository = repository;
         }

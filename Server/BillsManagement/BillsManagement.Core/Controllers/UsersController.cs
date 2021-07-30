@@ -15,6 +15,7 @@
         private readonly IUserService _service;
 
         public UsersController(IUserService service)
+            : base(service)
         {
             this._service = service;
         }

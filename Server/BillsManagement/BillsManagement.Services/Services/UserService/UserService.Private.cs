@@ -12,7 +12,7 @@
     public partial class UserService : IUserService
     {
         public static string Issuer { get; } = Guid.NewGuid().ToString();
-        public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(15);
+        public static DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(45);
         private static string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
         private string GenerateJwtToken(DomainModel.Authentication auth)
@@ -35,23 +35,15 @@
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
-
-            var token = new DomainModel.SecurityToken()
-            {
-                ExpirationDate = Expires,
-                Secret = Secret,
-                UserId = auth.UserId,
-                SecurityToken1 = securityToken
-            };
+            var securityToken = tokenHandler
+                .WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
 
             return securityToken;
         }
 
-        private string GetValidatedToken(DomainModel.TokenValidator tokenValidator)
+        private string GetValidToken(DomainModel.TokenValidator tokenValidator)
         {
             DomainModel.SecurityToken securityToken = new DomainModel.SecurityToken();
-            securityToken.SecurityToken1 = tokenValidator.SecurityToken.SecurityToken1;
             securityToken.Secret = Secret;
             securityToken.ExpirationDate = Expires;
             securityToken.UserId = tokenValidator.Authentication.UserId;
@@ -64,10 +56,14 @@
 
                 this._authenticationRepository.SaveToken(securityToken);
             }
-            if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
+            else if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
             {
                 string refreshedSecurityToken = this.RefreshToken(securityToken, tokenValidator);
                 securityToken.SecurityToken1 = refreshedSecurityToken;
+            }
+            else
+            {
+                securityToken.SecurityToken1 = tokenValidator.SecurityToken.SecurityToken1;
             }
 
             return securityToken.SecurityToken1;

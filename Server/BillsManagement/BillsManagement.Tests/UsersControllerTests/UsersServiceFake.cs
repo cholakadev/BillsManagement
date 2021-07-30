@@ -37,5 +37,10 @@ namespace BillsManagement.Tests.UsersControllerTests
         {
             throw new NotImplementedException();
         }
+
+        public void ValidateJwtToken(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

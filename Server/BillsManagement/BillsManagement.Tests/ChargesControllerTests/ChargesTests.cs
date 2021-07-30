@@ -23,7 +23,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
         {
             this._service = new ChargesServiceFake();
             this._userService = new UsersServiceFake();
-            this._chargesController = new ChargesController(_service);
+            this._chargesController = new ChargesController(_service, _userService);
         }
 
         [Fact]

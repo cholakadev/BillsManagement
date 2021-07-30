@@ -12,10 +12,13 @@
     public class ChargesController : BaseController
     {
         private readonly IChargesService _service;
+        private readonly IUserService _userService;
 
-        public ChargesController(IChargesService service)
+        public ChargesController(IChargesService service, IUserService userService)
+            : base(userService)
         {
             this._service = service;
+            this._userService = userService;
         }
 
         [HttpGet]
@@ -34,7 +37,7 @@
             try
             {
                 GetChargesResponse response = new GetChargesResponse();
-                this.ValidateUserClaim();
+                this.Authorize();
                 response = this._service.GetCharges();
                 response.StatusCode = HttpStatusCode.OK;
                 return response;

@@ -30,13 +30,13 @@
                 .GetSecurityTokenByUserId(auth.UserId);
 
             auth.Email = request.Email;
-            DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator()
-            {
-                SecurityToken = token,
-                Authentication = auth
-            };
 
-            var securityToken = this.GetValidatedToken(tokenValidator);
+            DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator();
+            tokenValidator.SecurityToken = new DomainModel.SecurityToken();
+            tokenValidator.SecurityToken = token;
+            tokenValidator.Authentication = auth;
+
+            var securityToken = this.GetValidToken(tokenValidator);
 
             DomainModel.LoginResponse response = new DomainModel.LoginResponse();
             response.Token = securityToken;
@@ -61,6 +61,16 @@
             RegisterResponse response = new RegisterResponse();
             response.Registration = registration;
             return response;
+        }
+
+        public void ValidateJwtToken(Guid userId)
+        {
+            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
+
+            if (token.ExpirationDate <= DateTime.Now)
+            {
+                throw new Exception("Unauthorized");
+            }
         }
     }
 }
