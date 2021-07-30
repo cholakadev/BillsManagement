@@ -31,7 +31,6 @@
             auth.Email = request.Email;
 
             DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator();
-            tokenValidator.SecurityToken = new DomainModel.SecurityToken();
             tokenValidator.SecurityToken = token;
             tokenValidator.Authentication = auth;
 

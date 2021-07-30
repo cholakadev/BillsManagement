@@ -26,7 +26,10 @@
             var oldSecurityToken = this._dbContext.SecurityTokens
                 .FirstOrDefault(token => token.IsExpired == false && token.UserId == securityToken.UserId);
 
-            oldSecurityToken.IsExpired = true;
+            if (oldSecurityToken != null)
+            {
+                oldSecurityToken.IsExpired = true;
+            }
 
             var mappedCurrentSecurityToken = this._mapper.Map<DomainModel.SecurityToken, SecurityToken>(securityToken);
 

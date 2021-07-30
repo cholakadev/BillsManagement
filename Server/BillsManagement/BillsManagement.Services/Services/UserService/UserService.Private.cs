@@ -58,7 +58,7 @@
             }
             else if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
             {
-                string refreshedSecurityToken = this.RefreshToken(securityToken, tokenValidator);
+                string refreshedSecurityToken = this.RefreshToken(securityToken, tokenValidator.Authentication);
                 securityToken.SecurityToken1 = refreshedSecurityToken;
             }
             else
@@ -69,11 +69,9 @@
             return securityToken.SecurityToken1;
         }
 
-        private string RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.TokenValidator tokenValidator)
+        private string RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.Authentication authentication)
         {
-            this.ValidateToken(securityToken);
-
-            string refreshedSecurityToken = this.GenerateJwtToken(tokenValidator.Authentication);
+            string refreshedSecurityToken = this.GenerateJwtToken(authentication);
 
             securityToken.SecurityToken1 = refreshedSecurityToken;
 
@@ -82,9 +80,14 @@
             return refreshedSecurityToken;
         }
 
-        private void ValidateToken(DomainModel.SecurityToken token)
+        private void ValidateToken(Guid userId)
         {
+            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
 
+            if (token.ExpirationDate <= DateTime.Now && token != null)
+            {
+                this._authenticationRepository.UpdateToken(token);
+            }
         }
 
         private void SendRegisterNotificationEmail(DomainModel.Registration registration, DomainModel.Settings settings)
