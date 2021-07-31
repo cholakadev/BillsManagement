@@ -1,6 +1,6 @@
 ﻿namespace BillsManagement.Repository.RepositoryContracts
 {
-    public interface IAuthenticationRepository : IBaseRepository<DomainModel.Authentication>
+    public interface IAuthenticationRepository : IBaseRepository<DomainModel.User>
     {
         void SaveToken(DomainModel.SecurityToken securityToken);
 

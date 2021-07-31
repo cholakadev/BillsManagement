@@ -10,7 +10,7 @@ namespace BillsManagement.Tests.UsersControllerTests
             throw new NotImplementedException();
         }
 
-        public DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email)
+        public DomainModel.User GetUserEncryptedPasswordByEmail(string email)
         {
             throw new System.NotImplementedException();
         }
