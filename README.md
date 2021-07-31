@@ -16,7 +16,6 @@
 
   <p align="center">
     <br />
-    <br />
     <a href="https://github.com/cholakadev/BillsManagement">View Demo</a>
     ·
     <a href="https://github.com/cholakadev/BillsManagement/issues">Report Bug</a>
