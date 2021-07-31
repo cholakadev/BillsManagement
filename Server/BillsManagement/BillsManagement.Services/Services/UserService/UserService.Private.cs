@@ -12,7 +12,7 @@
     public partial class UserService : IUserService
     {
         private string Issuer { get; set; } = Guid.NewGuid().ToString();
-        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(30);
+        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(4);
         private string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
         private string GenerateJwtToken(DomainModel.User user)
@@ -69,6 +69,14 @@
             else
             {
                 authorization.JsonWebToken = tokenValidator.SecurityToken.JsonWebToken;
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserId", tokenValidator.User.UserId.ToString())
+                    })
+                };
             }
 
             return authorization.JsonWebToken;

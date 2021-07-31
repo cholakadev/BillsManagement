@@ -34,7 +34,7 @@
 
             var entity = this._mapper.Map<DomainModel.Charge, Charge>(charge);
 
-            this._dbContext.Add(entity);
+            this._dbContext.Charges.Add(entity);
             this._dbContext.SaveChanges();
 
             return charge;

@@ -13,14 +13,14 @@
             CreateMap<Charge, DomainModel.Charge>()
                   .ForMember(destination => destination.ChargeId, options => options.MapFrom(source => source.ChargeId))
                   .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                  .ForMember(destination => destination.ChargeTypeId, options => options.MapFrom(source => source.ChargeType))
+                  .ForMember(destination => destination.ChargeTypeId, options => options.MapFrom(source => source.ChargeTypeId))
                   .ForMember(destination => destination.ChargeDate, options => options.MapFrom(source => source.ChargeDate))
                   .ForMember(destination => destination.DueAmount, options => options.MapFrom(source => source.DueAmount));
 
             CreateMap<DomainModel.Charge, Charge>()
                   .ForMember(destination => destination.ChargeId, options => options.MapFrom(source => source.ChargeId))
                   .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                  .ForMember(destination => destination.ChargeType, options => options.MapFrom(source => source.ChargeTypeId))
+                  .ForMember(destination => destination.ChargeTypeId, options => options.MapFrom(source => source.ChargeTypeId))
                   .ForMember(destination => destination.ChargeDate, options => options.MapFrom(source => source.ChargeDate))
                   .ForMember(destination => destination.DueAmount, options => options.MapFrom(source => source.DueAmount));
 
