@@ -11,10 +11,10 @@
 
         DomainModel.User GetUserDetails(string email);
 
-        DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId);
+        DomainModel.Authorization GetAuthorizationByUserId(Guid userId);
 
         Guid GetUserInformation(string email);
 
-        void UpdateToken(DomainModel.SecurityToken token);
+        void UpdateToken(DomainModel.Authorization token);
     }
 }

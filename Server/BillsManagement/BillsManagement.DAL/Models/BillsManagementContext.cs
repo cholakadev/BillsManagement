@@ -17,11 +17,11 @@ namespace BillsManagement.DAL.Models
         {
         }
 
+        public virtual DbSet<Authorization> Authorizations { get; set; }
         public virtual DbSet<CashAccount> CashAccounts { get; set; }
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<ChargeType> ChargeTypes { get; set; }
         public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
-        public virtual DbSet<SecurityToken> SecurityTokens { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,6 +36,38 @@ namespace BillsManagement.DAL.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
+
+            modelBuilder.Entity<Authorization>(entity =>
+            {
+                entity.HasKey(e => e.SecurityTokenId)
+                    .HasName("PK__Security__7B9A1D73A6E5785D");
+
+                entity.ToTable("Authorization");
+
+                entity.Property(e => e.SecurityTokenId).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.CreationDate)
+                    .HasColumnType("smalldatetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ExpirationDate)
+                    .HasColumnType("smalldatetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsExpired).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.JsonWebToken).HasMaxLength(1024);
+
+                entity.Property(e => e.Secret)
+                    .IsRequired()
+                    .HasMaxLength(32);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Authorizations)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SecurityT__UserI__06CD04F7");
+            });
 
             modelBuilder.Entity<CashAccount>(entity =>
             {
@@ -90,37 +122,6 @@ namespace BillsManagement.DAL.Models
                 entity.Property(e => e.BusinessEmail).HasMaxLength(128);
 
                 entity.Property(e => e.BusinessEmailPassword).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<SecurityToken>(entity =>
-            {
-                entity.ToTable("SecurityToken");
-
-                entity.Property(e => e.SecurityTokenId).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.CreationDate)
-                    .HasColumnType("smalldatetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ExpirationDate)
-                    .HasColumnType("smalldatetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.IsExpired).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Secret)
-                    .IsRequired()
-                    .HasMaxLength(32);
-
-                entity.Property(e => e.SecurityToken1)
-                    .HasMaxLength(1024)
-                    .HasColumnName("SecurityToken");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.SecurityTokens)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SecurityT__UserI__06CD04F7");
             });
 
             modelBuilder.Entity<User>(entity =>

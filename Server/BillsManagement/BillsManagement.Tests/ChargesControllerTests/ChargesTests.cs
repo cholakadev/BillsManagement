@@ -2,7 +2,6 @@
 using BillsManagement.DomainModel.Charges;
 using BillsManagement.Services.ServiceContracts;
 using BillsManagement.Tests.UsersControllerTests;
-using BillsManagement.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -48,7 +47,7 @@ namespace BillsManagement.Tests.ChargesControllerTests
 
             identity.AddClaim(new Claim("UserId", Guid.NewGuid().ToString()));
 
-            MockJwtTokens.GenerateJwtToken(tokenDescriptor.Subject.Claims);
+            //MockJwtTokens.GenerateJwtToken(tokenDescriptor.Subject.Claims);
 
             ActionResult<GetChargesResponse> response = this._chargesController.GetCharges();
             Assert.True(response.Value.StatusCode == HttpStatusCode.OK);

@@ -21,7 +21,8 @@
         {
             bool isExisting = false;
 
-            User user = this._dbContext.Users.FirstOrDefault(x => x.UserId == userId);
+            User user = this._dbContext.Users
+                .FirstOrDefault(x => x.UserId == userId);
 
             if (user != null)
             {
@@ -31,38 +32,30 @@
             return isExisting;
         }
 
-        public bool IsExistingUser(string email)
-        {
-            User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
-
-            if (user == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public CashAccount GetCashAccountByUserId(Guid? userId)
-            => this._dbContext.CashAccounts.FirstOrDefault(x => x.UserId == userId);
+            => this._dbContext.CashAccounts
+            .FirstOrDefault(x => x.UserId == userId);
 
         public DomainModel.Settings GetNotificationSettings(int key)
         {
             var notificationSettings = this._dbContext.NotificationSettings
                 .FirstOrDefault(x => x.SettingsKey == 1);
 
-            var settings = this._mapper.Map<NotificationSetting, DomainModel.Settings>(notificationSettings);
+            var settings = this._mapper
+                .Map<NotificationSetting, DomainModel.Settings>(notificationSettings);
 
             return settings;
         }
 
-        public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId)
+        public DomainModel.Authorization GetAuthorizationByUserId(Guid userId)
         {
-            SecurityToken token = this._dbContext.SecurityTokens
+            Authorization authorization = this._dbContext.Authorizations
                 .FirstOrDefault(x => x.IsExpired == false & x.UserId == userId);
-            DomainModel.SecurityToken mappedToken = this._mapper.Map<SecurityToken, DomainModel.SecurityToken>(token);
 
-            return mappedToken;
+            DomainModel.Authorization mappedAuthorization = this._mapper
+                .Map<Authorization, DomainModel.Authorization>(authorization);
+
+            return mappedAuthorization;
         }
     }
 }

@@ -36,13 +36,6 @@
                 .ForMember(destination => destination.Email, options => options.MapFrom(source => source.Email))
                 .ForMember(destination => destination.Phone, options => options.MapFrom(source => source.Phone));
 
-            CreateMap<DomainModel.SecurityToken, SecurityToken>()
-                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
-                .ForMember(destination => destination.Secret, options => options.MapFrom(source => source.Secret))
-                .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))
-                .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
-                .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId));
-
             CreateMap<User, DomainModel.User>()
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
                 .ForMember(destination => destination.FirstName, options => options.MapFrom(source => source.FirstName))
@@ -77,18 +70,18 @@
 
             #region Security Translators
 
-            CreateMap<SecurityToken, DomainModel.SecurityToken>()
+            CreateMap<Authorization, DomainModel.Authorization>()
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
+                .ForMember(destination => destination.JsonWebToken, options => options.MapFrom(source => source.JsonWebToken))
                 .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
                 .ForMember(destination => destination.ExpirationDate, options => options.MapFrom(source => source.ExpirationDate))
                 .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))
                 .ForMember(destination => destination.Secret, options => options.MapFrom(source => source.Secret));
 
 
-            CreateMap<DomainModel.SecurityToken, SecurityToken>()
+            CreateMap<DomainModel.Authorization, Authorization>()
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
-                .ForMember(destination => destination.SecurityToken1, options => options.MapFrom(source => source.SecurityToken1))
+                .ForMember(destination => destination.JsonWebToken, options => options.MapFrom(source => source.JsonWebToken))
                 .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
                 .ForMember(destination => destination.ExpirationDate, options => options.MapFrom(source => source.ExpirationDate))
                 .ForMember(destination => destination.CreationDate, options => options.MapFrom(source => source.CreationDate))

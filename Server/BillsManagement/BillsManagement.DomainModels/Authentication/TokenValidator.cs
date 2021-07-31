@@ -2,7 +2,7 @@
 {
     public class TokenValidator
     {
-        public DomainModel.SecurityToken SecurityToken { get; set; }
+        public DomainModel.Authorization SecurityToken { get; set; }
 
         public DomainModel.User User { get; set; }
     }

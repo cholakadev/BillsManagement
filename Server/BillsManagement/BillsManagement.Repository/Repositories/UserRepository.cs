@@ -16,14 +16,16 @@
 
         public DomainModel.User GetUserDetails(string email)
         {
-            var user = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
+            var user = this._dbContext.Users
+                .FirstOrDefault(x => x.Email == email);
 
             if (user == null)
             {
                 throw new Exception("Can't read user details.");
             }
 
-            var mappedAuth = this._mapper.Map<User, DomainModel.User>(user);
+            var mappedAuth = this._mapper
+                .Map<User, DomainModel.User>(user);
 
             return mappedAuth;
         }
@@ -34,7 +36,8 @@
 
         public bool IsExistingUser(string email)
         {
-            User user = this._dbContext.Users.FirstOrDefault(u => u.Email == email);
+            User user = this._dbContext.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -58,7 +61,8 @@
                 Password = password
             };
 
-            var registration = this._mapper.Map<User, DomainModel.Registration>(user);
+            var registration = this._mapper
+                .Map<User, DomainModel.Registration>(user);
 
             this._dbContext.Users.Add(user);
             this._dbContext.SaveChanges();
@@ -68,12 +72,15 @@
             return registration;
         }
 
-        public void UpdateToken(DomainModel.SecurityToken token)
+        public void UpdateToken(DomainModel.Authorization token)
         {
-            var mappedToken = this._mapper.Map<DomainModel.SecurityToken, SecurityToken>(token);
+            var authorization = this._mapper
+                .Map<DomainModel.Authorization, Authorization>(token);
 
-            this._dbContext.SecurityTokens.Add(mappedToken);
-            foreach (var securityToken in this._dbContext.SecurityTokens.Where(x => x.SecurityTokenId != mappedToken.SecurityTokenId))
+            this._dbContext.Authorizations.Add(authorization);
+
+            foreach (var securityToken in this._dbContext.Authorizations
+                .Where(x => x.SecurityTokenId != authorization.SecurityTokenId))
             {
                 if (securityToken.UserId == token.UserId)
                 {
@@ -83,8 +90,5 @@
 
             this._dbContext.SaveChanges();
         }
-
-        DomainModel.SecurityToken IUserRepository.GetSecurityTokenByUserId(Guid userId)
-            => this.GetSecurityTokenByUserId(userId);
     }
 }

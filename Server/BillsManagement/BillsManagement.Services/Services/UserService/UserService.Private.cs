@@ -43,50 +43,50 @@
 
         private string GetValidToken(DomainModel.TokenValidator tokenValidator)
         {
-            DomainModel.SecurityToken securityToken = new DomainModel.SecurityToken();
-            securityToken.Secret = Secret;
-            securityToken.ExpirationDate = Expires;
-            securityToken.UserId = tokenValidator.User.UserId;
+            DomainModel.Authorization authorization = new DomainModel.Authorization();
+            authorization.Secret = Secret;
+            authorization.ExpirationDate = Expires;
+            authorization.UserId = tokenValidator.User.UserId;
 
             if (tokenValidator.SecurityToken == null)
             {
                 var token = this.GenerateJwtToken(tokenValidator.User);
 
-                securityToken.SecurityToken1 = token;
+                authorization.JsonWebToken = token;
 
-                this._authenticationRepository.SaveToken(securityToken);
+                this._authorizationRepository.SaveToken(authorization);
             }
             else if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
             {
-                string refreshedSecurityToken = this.RefreshToken(securityToken, tokenValidator.User);
-                securityToken.SecurityToken1 = refreshedSecurityToken;
+                string refreshedJsonWebToken = this.RefreshToken(authorization, tokenValidator.User);
+                authorization.JsonWebToken = refreshedJsonWebToken;
             }
             else
             {
-                securityToken.SecurityToken1 = tokenValidator.SecurityToken.SecurityToken1;
+                authorization.JsonWebToken = tokenValidator.SecurityToken.JsonWebToken;
             }
 
-            return securityToken.SecurityToken1;
+            return authorization.JsonWebToken;
         }
 
-        private string RefreshToken(DomainModel.SecurityToken securityToken, DomainModel.User user)
+        private string RefreshToken(DomainModel.Authorization authorization, DomainModel.User user)
         {
-            string refreshedSecurityToken = this.GenerateJwtToken(user);
+            string refreshedJsonWebToken = this.GenerateJwtToken(user);
 
-            securityToken.SecurityToken1 = refreshedSecurityToken;
+            authorization.JsonWebToken = refreshedJsonWebToken;
 
-            this._authenticationRepository.UpdateToken(securityToken);
+            this._authorizationRepository.UpdateToken(authorization);
 
-            return refreshedSecurityToken;
+            return refreshedJsonWebToken;
         }
 
         private void ValidateToken(Guid userId)
         {
-            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
+            DomainModel.Authorization token = this._userRepository.GetAuthorizationByUserId(userId);
 
             if (token.ExpirationDate <= DateTime.Now && token != null)
             {
-                this._authenticationRepository.UpdateToken(token);
+                this._authorizationRepository.UpdateToken(token);
             }
         }
 

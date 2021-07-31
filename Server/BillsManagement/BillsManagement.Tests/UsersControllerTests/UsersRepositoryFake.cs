@@ -5,7 +5,7 @@ namespace BillsManagement.Tests.UsersControllerTests
 {
     public class UsersRepositoryFake //: IUserRepository
     {
-        public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId)
+        public DomainModel.Authorization GetSecurityTokenByUserId(Guid userId)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace BillsManagement.Tests.UsersControllerTests
             throw new System.NotImplementedException();
         }
 
-        public void UpdateToken(DomainModel.SecurityToken token)
+        public void UpdateToken(DomainModel.Authorization token)
         {
             throw new NotImplementedException();
         }

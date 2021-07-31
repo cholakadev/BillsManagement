@@ -9,12 +9,12 @@
     public partial class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly IAuthorizationRepository _authorizationRepository;
 
-        public UserService(IUserRepository userRepository, IAuthenticationRepository authenticationRepository)
+        public UserService(IUserRepository userRepository, IAuthorizationRepository authorizationRepository)
         {
             this._userRepository = userRepository;
-            this._authenticationRepository = authenticationRepository;
+            this._authorizationRepository = authorizationRepository;
         }
 
         public LoginResponse Login(LoginRequest request)
@@ -24,8 +24,8 @@
 
             PasswordCipher.Decrypt(user.Password, request.Password);
 
-            DomainModel.SecurityToken token = this._userRepository
-                .GetSecurityTokenByUserId(user.UserId);
+            DomainModel.Authorization token = this._userRepository
+                .GetAuthorizationByUserId(user.UserId);
 
             DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator();
             tokenValidator.SecurityToken = token;
@@ -56,9 +56,9 @@
 
         public void ValidateJwtToken(Guid userId)
         {
-            DomainModel.SecurityToken token = this._userRepository.GetSecurityTokenByUserId(userId);
+            DomainModel.Authorization authorization = this._userRepository.GetAuthorizationByUserId(userId);
 
-            if (token.ExpirationDate <= DateTime.Now)
+            if (authorization.ExpirationDate <= DateTime.Now)
             {
                 throw new Exception("Unauthorized");
             }
