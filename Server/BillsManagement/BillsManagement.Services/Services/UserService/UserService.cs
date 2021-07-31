@@ -1,7 +1,6 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
     using BillsManagement.DomainModel;
-    using BillsManagement.DomainModel.User;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
@@ -20,19 +19,17 @@
 
         public LoginResponse Login(LoginRequest request)
         {
-            DomainModel.Authentication auth = this._userRepository
-                .GetUserEncryptedPasswordByEmail(request.Email);
+            DomainModel.User user = this._userRepository
+                .GetUserDetails(request.Email);
 
-            PasswordCipher.Decrypt(auth.Password, request.Password);
+            PasswordCipher.Decrypt(user.Password, request.Password);
 
             DomainModel.SecurityToken token = this._userRepository
-                .GetSecurityTokenByUserId(auth.UserId);
-
-            auth.Email = request.Email;
+                .GetSecurityTokenByUserId(user.UserId);
 
             DomainModel.TokenValidator tokenValidator = new DomainModel.TokenValidator();
             tokenValidator.SecurityToken = token;
-            tokenValidator.Authentication = auth;
+            tokenValidator.User = user;
 
             var securityToken = this.GetValidToken(tokenValidator);
 

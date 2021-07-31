@@ -9,7 +9,6 @@ namespace BillsManagement.DAL.Models
     {
         public User()
         {
-            Authentications = new HashSet<Authentication>();
             CashAccounts = new HashSet<CashAccount>();
             Charges = new HashSet<Charge>();
             SecurityTokens = new HashSet<SecurityToken>();
@@ -23,8 +22,8 @@ namespace BillsManagement.DAL.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public bool IsAdmin { get; set; }
+        public string Password { get; set; }
 
-        public virtual ICollection<Authentication> Authentications { get; set; }
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
         public virtual ICollection<Charge> Charges { get; set; }
         public virtual ICollection<SecurityToken> SecurityTokens { get; set; }

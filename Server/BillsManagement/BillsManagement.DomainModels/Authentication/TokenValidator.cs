@@ -4,6 +4,6 @@
     {
         public DomainModel.SecurityToken SecurityToken { get; set; }
 
-        public DomainModel.Authentication Authentication { get; set; }
+        public DomainModel.User User { get; set; }
     }
 }

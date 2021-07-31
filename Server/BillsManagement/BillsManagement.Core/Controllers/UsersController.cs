@@ -2,7 +2,6 @@
 {
     using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DomainModel;
-    using BillsManagement.DomainModel.User;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
     using System;

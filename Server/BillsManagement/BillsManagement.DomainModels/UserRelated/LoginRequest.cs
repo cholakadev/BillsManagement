@@ -1,6 +1,6 @@
-﻿namespace BillsManagement.DomainModel.User
+﻿namespace BillsManagement.DomainModel
 {
-    public class RegisterRequest
+    public class LoginRequest
     {
         public string Email { get; set; }
 

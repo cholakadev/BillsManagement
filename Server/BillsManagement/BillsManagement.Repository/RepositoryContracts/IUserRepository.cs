@@ -9,7 +9,7 @@
 
         bool IsExistingUser(string email);
 
-        DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email);
+        DomainModel.User GetUserDetails(string email);
 
         DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId);
 

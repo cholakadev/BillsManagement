@@ -43,8 +43,15 @@
                 .ForMember(destination => destination.IsExpired, options => options.MapFrom(source => source.IsExpired))
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId));
 
-            CreateMap<Authentication, DomainModel.Authentication>()
+            CreateMap<User, DomainModel.User>()
                 .ForMember(destination => destination.UserId, options => options.MapFrom(source => source.UserId))
+                .ForMember(destination => destination.FirstName, options => options.MapFrom(source => source.FirstName))
+                .ForMember(destination => destination.MiddleName, options => options.MapFrom(source => source.MiddleName))
+                .ForMember(destination => destination.LastName, options => options.MapFrom(source => source.LastName))
+                .ForMember(destination => destination.Email, options => options.MapFrom(source => source.Email))
+                .ForMember(destination => destination.Phone, options => options.MapFrom(source => source.Phone))
+                .ForMember(destination => destination.Address, options => options.MapFrom(source => source.Address))
+                .ForMember(destination => destination.IsAdmin, options => options.MapFrom(source => source.IsAdmin))
                 .ForMember(destination => destination.Password, options => options.MapFrom(source => source.Password));
 
             CreateMap<User, DomainModel.RegisterResponse>()

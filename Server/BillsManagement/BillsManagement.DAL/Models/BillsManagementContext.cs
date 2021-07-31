@@ -17,7 +17,6 @@ namespace BillsManagement.DAL.Models
         {
         }
 
-        public virtual DbSet<Authentication> Authentications { get; set; }
         public virtual DbSet<CashAccount> CashAccounts { get; set; }
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<ChargeType> ChargeTypes { get; set; }
@@ -37,23 +36,6 @@ namespace BillsManagement.DAL.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
-
-            modelBuilder.Entity<Authentication>(entity =>
-            {
-                entity.ToTable("Authentication");
-
-                entity.Property(e => e.AuthenticationId).ValueGeneratedNever();
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(512);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Authentications)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UsersAuthentication");
-            });
 
             modelBuilder.Entity<CashAccount>(entity =>
             {
@@ -131,7 +113,6 @@ namespace BillsManagement.DAL.Models
                     .HasMaxLength(32);
 
                 entity.Property(e => e.SecurityToken1)
-                    .IsRequired()
                     .HasMaxLength(1024)
                     .HasColumnName("SecurityToken");
 
@@ -139,7 +120,7 @@ namespace BillsManagement.DAL.Models
                     .WithMany(p => p.SecurityTokens)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SecurityT__UserI__71D1E811");
+                    .HasConstraintName("FK__SecurityT__UserI__06CD04F7");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -157,6 +138,8 @@ namespace BillsManagement.DAL.Models
                 entity.Property(e => e.LastName).HasMaxLength(64);
 
                 entity.Property(e => e.MiddleName).HasMaxLength(64);
+
+                entity.Property(e => e.Password).HasMaxLength(512);
 
                 entity.Property(e => e.Phone).HasMaxLength(128);
             });

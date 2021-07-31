@@ -14,24 +14,16 @@
 
         }
 
-        public DomainModel.Authentication GetUserEncryptedPasswordByEmail(string email)
+        public DomainModel.User GetUserDetails(string email)
         {
-            var databaseUser = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
+            var user = this._dbContext.Users.FirstOrDefault(x => x.Email == email);
 
-            if (databaseUser == null)
+            if (user == null)
             {
-                throw new Exception("User does not exist");
+                throw new Exception("Can't read user details.");
             }
 
-            var auth = this._dbContext.Authentications
-                .FirstOrDefault(x => x.UserId == databaseUser.UserId);
-
-            if (auth == null)
-            {
-                throw new Exception("Unouthorized");
-            }
-
-            var mappedAuth = this._mapper.Map<Authentication, DomainModel.Authentication>(auth);
+            var mappedAuth = this._mapper.Map<User, DomainModel.User>(user);
 
             return mappedAuth;
         }
@@ -62,20 +54,13 @@
             User user = new User()
             {
                 UserId = Guid.NewGuid(),
-                Email = email
-            };
-
-            Authentication authentication = new Authentication()
-            {
-                AuthenticationId = Guid.NewGuid(),
-                Password = password,
-                UserId = user.UserId
+                Email = email,
+                Password = password
             };
 
             var registration = this._mapper.Map<User, DomainModel.Registration>(user);
 
             this._dbContext.Users.Add(user);
-            this._dbContext.Authentications.Add(authentication);
             this._dbContext.SaveChanges();
 
             settings = this.GetNotificationSettings(1);

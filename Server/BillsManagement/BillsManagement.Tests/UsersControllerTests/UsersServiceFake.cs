@@ -1,5 +1,4 @@
 ﻿using BillsManagement.DomainModel;
-using BillsManagement.DomainModel.User;
 using BillsManagement.Services.ServiceContracts;
 using Microsoft.IdentityModel.Tokens;
 using System;
