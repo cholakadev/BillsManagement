@@ -1,8 +1,8 @@
-﻿using BillsManagement.DAL.Models;
-using System;
-
-namespace BillsManagement.Repository.RepositoryContracts
+﻿namespace BillsManagement.Repository.RepositoryContracts
 {
+    using BillsManagement.DAL.Models;
+    using System;
+
     public interface IBaseRepository<T> where T : class
     {
         public DomainModel.SecurityToken GetSecurityTokenByUserId(Guid userId);

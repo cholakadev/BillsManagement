@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BillsManagement.Core.CustomExceptions
+﻿namespace BillsManagement.Core.CustomExceptions
 {
+    using System.Text.Json.Serialization;
+
     public class Error
     {
         [JsonPropertyName("Message")]

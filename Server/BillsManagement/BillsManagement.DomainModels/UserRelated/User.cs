@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BillsManagement.DomainModel
+﻿namespace BillsManagement.DomainModel
 {
+    using System;
+
     public class User
     {
         public Guid UserId { get; set; }

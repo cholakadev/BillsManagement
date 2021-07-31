@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BillsManagement.DomainModel.Charges
+﻿namespace BillsManagement.DomainModel.Charges
 {
+    using System.Text.Json.Serialization;
+
     public class GenerateChargeResponse : BaseResponse
     {
         [JsonPropertyName("Charge")]
