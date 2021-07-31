@@ -12,7 +12,7 @@
     public partial class UserService : IUserService
     {
         private string Issuer { get; set; } = Guid.NewGuid().ToString();
-        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(1);
+        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(30);
         private string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
         private string GenerateJwtToken(DomainModel.User user)
@@ -33,6 +33,11 @@
                      Encoding.UTF8
                      .GetBytes(Secret)), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            this._options.Update(opt =>
+            {
+                opt.JWT_Secret = Secret;
+            });
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler

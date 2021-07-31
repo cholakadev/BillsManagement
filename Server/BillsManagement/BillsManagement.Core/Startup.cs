@@ -9,6 +9,7 @@
     using BillsManagement.Services.ServiceContracts;
     using BillsManagement.Services.Services.ChargesService;
     using BillsManagement.Services.Services.UserService;
+    using BillsManagement.Utility.Options;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -44,7 +45,7 @@
 
             // Inject AppSetting
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.Configure<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
+            //services.Configure<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
 
             services
                 .AddMvc()
@@ -74,6 +75,9 @@
             });
 
             // JWT Authentication
+
+            services.ConfigureWritable<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
+
             var key = Encoding.UTF8.GetBytes(Configuration["SecuritySettings:JWT_Secret"].ToString());
 
             services.AddAuthentication(x =>

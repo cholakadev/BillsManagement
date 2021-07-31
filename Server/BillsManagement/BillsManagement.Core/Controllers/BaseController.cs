@@ -26,17 +26,14 @@
             Claim claim = this.User.Claims
                 .FirstOrDefault(claimRecord => claimRecord.Type == "UserId");
 
-            Guid extractedUserId = Guid.Parse(claim.Value);
-
-            this.ValidateToken(extractedUserId);
-
-            if (extractedUserId == Guid.Empty)
+            if (claim == null)
             {
                 throw new Exception("Unauthorized.");
             }
-        }
 
-        private void ValidateToken(Guid userId)
-            => this._userService.ValidateJwtToken(userId);
+            Guid extractedUserId = Guid.Parse(claim.Value);
+
+            this._userService.ValidateJwtToken(extractedUserId);
+        }
     }
 }
