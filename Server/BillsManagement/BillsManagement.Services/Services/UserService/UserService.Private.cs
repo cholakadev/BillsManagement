@@ -11,8 +11,8 @@
 
     public partial class UserService : IUserService
     {
-        public string Issuer { get; } = Guid.NewGuid().ToString();
-        public DateTime Expires { get; private set; } = DateTime.Now.AddMinutes(1);
+        private string Issuer { get; set; } = Guid.NewGuid().ToString();
+        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(1);
         private string Secret { get; set; } = Guid.NewGuid().ToString("N");
 
         private string GenerateJwtToken(DomainModel.User user)
@@ -87,6 +87,14 @@
             if (token.ExpirationDate <= DateTime.Now && token != null)
             {
                 this._authenticationRepository.UpdateToken(token);
+            }
+        }
+
+        private void ValidateUserExistence(string email)
+        {
+            if (this._userRepository.IsExistingUser(email))
+            {
+                throw new Exception("Email is already used on another account.");
             }
         }
 

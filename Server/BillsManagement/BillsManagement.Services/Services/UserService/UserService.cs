@@ -41,11 +41,7 @@
 
         public RegisterResponse Register(RegisterRequest request)
         {
-            if (this._userRepository.IsExistingUser(request.Email))
-            {
-                throw new Exception("Email is already taken.");
-            }
-
+            this.ValidateUserExistence(request.Email);
             var encryptedPassword = PasswordCipher.Encrypt(request.Password);
 
             var registration = this._userRepository
