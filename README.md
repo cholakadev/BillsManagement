@@ -81,16 +81,16 @@ Manual of how to set up the project locally.
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repository.
    ```sh
    git clone https://github.com/cholakadev/BillsManagement.git
    ```
-2. Set up database
+2. Set up database.
 	<font size="3">2.1. Open Microsoft SQL Server Management Studio.</font>
 	<font size="3">2.2. Right click on **Databases** and select **Restore Database**.				</font>
 	<font size="3">2.3. Navigate to **DatabaseBackup** folder under cloned repository directory and restore it.</font>
 
-3. Set up server
+3. Set up server.
 	<font size="3">3.1. Open cloned folder and run the following command:</font>
    ```sh
    cd Server\BillsManagement\BillsManagement.Core
@@ -113,7 +113,7 @@ Manual of how to set up the project locally.
    dotnet run
    ```
 
-<!-- 4. Set up client
+<!-- 4. Set up client.
 	4.1. Install dependencies:
    ```sh
    npm install
