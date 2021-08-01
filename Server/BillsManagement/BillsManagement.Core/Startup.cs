@@ -6,7 +6,6 @@
     using BillsManagement.Repository.Repositories;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
-    using BillsManagement.Services;
     using BillsManagement.Services.ServiceContracts;
     using BillsManagement.Services.Services.ChargesService;
     using BillsManagement.Services.Services.UserService;
@@ -47,7 +46,7 @@
             services.AddSingleton(mapper);
 
             // Inject AppSetting
-            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            //services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
             services
                 .AddMvc()
@@ -55,8 +54,9 @@
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // DbContext configuration
+            var connectionString = Configuration["Secrets:JWT_Secret"];
             services.AddDbContext<BillsManagementContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+                options.UseSqlServer(Configuration["Secrets:ConnectionString"]));
 
             // Repository configurations
             services.AddScoped<IUserRepository, UserRepository>();
@@ -77,8 +77,6 @@
             });
 
             // JWT Authentication
-
-            //services.ConfigureWritable<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
 
             var key = Encoding.UTF8.GetBytes(Configuration["Secrets:JWT_Secret"]);
 
