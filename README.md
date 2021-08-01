@@ -86,8 +86,9 @@ Manual of how to set up the project locally.
    git clone https://github.com/cholakadev/BillsManagement.git
    ```
 2. Set up database
-<font size= "3">2.1. Open Microsoft SQL Server Management Studio</font>
-<font size= "3">2.2. Right click on **Databases** and select **Restore Database**</font>
+<font size= "3">2.1. Open Microsoft SQL Server Management Studio.</font>
+<font size= "3">2.2. Right click on **Databases** and select **Restore Database**.</font>
+<font size= "3">2.3. Navigate to **DatabaseBackup** folder under cloned repository directory and restore it.</font>
 
 4. Set up server
 	<font size= "3">3.1. Open cloned folder and run the following command:</font>
