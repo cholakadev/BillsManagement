@@ -1,6 +1,0 @@
-Think about CriteriaModels -> Maybe move to repository layer
-
-
-Think about how to refresh token when it is expired and how/where to check when it is expired
-
-
