@@ -4,18 +4,18 @@
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
-    using BillsManagement.Utility.Options;
+    using Microsoft.Extensions.Options;
     using System;
 
     public partial class UserService : IUserService
     {
-        private readonly IWritableOptions<SecuritySettings> _options;
+        private readonly Secrets _secrets;
         private readonly IUserRepository _userRepository;
         private readonly IAuthorizationRepository _authorizationRepository;
 
-        public UserService(IWritableOptions<SecuritySettings> options, IUserRepository userRepository, IAuthorizationRepository authorizationRepository)
+        public UserService(IOptions<Secrets> secrets, IUserRepository userRepository, IAuthorizationRepository authorizationRepository)
         {
-            this._options = options;
+            this._secrets = secrets.Value ?? throw new ArgumentException(nameof(secrets));
             this._userRepository = userRepository;
             this._authorizationRepository = authorizationRepository;
         }

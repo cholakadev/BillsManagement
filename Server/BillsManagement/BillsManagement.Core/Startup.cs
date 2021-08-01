@@ -5,11 +5,11 @@
     using BillsManagement.Repository;
     using BillsManagement.Repository.Repositories;
     using BillsManagement.Repository.RepositoryContracts;
+    using BillsManagement.Security;
     using BillsManagement.Services;
     using BillsManagement.Services.ServiceContracts;
     using BillsManagement.Services.Services.ChargesService;
     using BillsManagement.Services.Services.UserService;
-    using BillsManagement.Utility.Options;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,6 +34,9 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Users secrets
+            services.Configure<Secrets>(Configuration.GetSection("Secrets"));
+
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -45,7 +48,6 @@
 
             // Inject AppSetting
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            //services.Configure<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
 
             services
                 .AddMvc()
@@ -76,9 +78,9 @@
 
             // JWT Authentication
 
-            services.ConfigureWritable<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
+            //services.ConfigureWritable<SecuritySettings>(Configuration.GetSection("SecuritySettings"));
 
-            var key = Encoding.UTF8.GetBytes(Configuration["SecuritySettings:JWT_Secret"].ToString());
+            var key = Encoding.UTF8.GetBytes(Configuration["Secrets:JWT_Secret"]);
 
             services.AddAuthentication(x =>
             {

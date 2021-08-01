@@ -13,7 +13,24 @@
     {
         private string Issuer { get; set; } = Guid.NewGuid().ToString();
         private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(4);
-        private string Secret { get; set; } = Guid.NewGuid().ToString("N");
+        private string Secret
+        {
+            get
+            {
+                return this._secrets.JWT_Secret;
+            }
+            set
+            {
+                if (this._secrets.JWT_Secret != null)
+                {
+                    this._secrets.JWT_Secret = value;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+        }
 
         private string GenerateJwtToken(DomainModel.User user)
         {
@@ -24,7 +41,7 @@
                 {
                     new Claim("UserId", user.UserId.ToString()),
                     new Claim("Email", user.Email),
-                    new Claim("SecretGuid", Guid.NewGuid().ToString()),
+                    new Claim("Secret", Secret),
                     new Claim("GenerateDate", tokenGenerateTime.ToString()),
                     new Claim("Expires", Expires.ToString())
                 }),
@@ -33,11 +50,6 @@
                      Encoding.UTF8
                      .GetBytes(Secret)), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            this._options.Update(opt =>
-            {
-                opt.JWT_Secret = Secret;
-            });
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler
