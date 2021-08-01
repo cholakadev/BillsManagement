@@ -89,7 +89,6 @@ Manual of how to set up the project locally.
 <font size= "3">2.1. Open Microsoft SQL Server Management Studio</font>
 <font size= "3">2.2. Right click on **Databases** and select **Restore Database**</font>
 
-<span>*Right click *</span>
 4. Set up server
 	<font size= "3">3.1. Open cloned folder and run the following command:</font>
    ```sh
