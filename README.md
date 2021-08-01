@@ -1,3 +1,4 @@
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
 [![MIT License][license-shield]][license-url]
@@ -84,17 +85,35 @@ Manual of how to set up the project locally.
    ```sh
    git clone https://github.com/cholakadev/BillsManagement.git
    ```
-2. Set up server
-	<font size= "3">2.1. Open cloned folder and run the following command:</font>
+2. Set up database
+<font size= "3">2.1. Open Microsoft SQL Server Management Studio</font>
+<font size= "3">2.2. Right click on **Databases** and select **Restore Database**</font>
+
+<span>*Right click *</span>
+4. Set up server
+	<font size= "3">3.1. Open cloned folder and run the following command:</font>
    ```sh
    cd Server\BillsManagement\BillsManagement.Core
    ```
-   <font size="3">2.2. Run the server:<font>
+   <font size="3">3.2.  Allow user-secrets: </font>
+	  ```sh
+   dotnet init
+   ```
+   <font size="3">3.3.  Set up the neccessery secrets: </font>
+	  ```sh
+   dotnet user-secrets set "Secrets:JWT_Secret" "7582ae4085c54c2c85c7b770ae720c3d"
+   ```
+	  ```sh
+   dotnet user-secrets set "Secrets:ConnectionString" "server=.\SQLEXPRESS;database=BillsManagement;Trusted_Connection=true;MultipleActiveResultSets=true;"
+   ```
+	<font size="3">***Important:*** Replace server name (SQLEXPRESS) with your own SQL Server name</font>
+
+   <font size="3">3.4. Run the server:</font>
       ```sh
    dotnet run
    ```
 
-<!-- 3. Set up client
+<!-- 4. Set up client
 	3.1. Install dependencies:
    ```sh
    npm install
