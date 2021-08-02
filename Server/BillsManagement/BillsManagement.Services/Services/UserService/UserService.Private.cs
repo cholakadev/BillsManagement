@@ -12,7 +12,8 @@
     public partial class UserService : IUserService
     {
         private string Issuer { get; set; } = Guid.NewGuid().ToString();
-        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(4);
+        private DateTime Expires { get; set; } = DateTime.Now.AddMinutes(1);
+        private DateTime GenerateTime { get; set; } = DateTime.Now;
         private string Secret
         {
             get
@@ -34,7 +35,6 @@
 
         private string GenerateJwtToken(DomainModel.User user)
         {
-            var tokenGenerateTime = DateTime.Now;
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -42,8 +42,8 @@
                     new Claim("UserId", user.UserId.ToString()),
                     new Claim("Email", user.Email),
                     new Claim("Secret", Secret),
-                    new Claim("GenerateDate", tokenGenerateTime.ToString()),
-                    new Claim("Expires", Expires.ToString())
+                    new Claim("GenerateTime", this.GenerateTime.ToString()),
+                    new Claim("Expires", this.Expires.ToString())
                 }),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(
@@ -52,43 +52,37 @@
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler
-                .WriteToken(new JwtSecurityToken(Issuer, null, tokenDescriptor.Subject.Claims, null, Expires, tokenDescriptor.SigningCredentials));
+            var securityToken = tokenHandler.WriteToken(new JwtSecurityToken(Issuer,
+                null,
+                tokenDescriptor.Subject.Claims,
+                null,
+                Expires,
+                tokenDescriptor.SigningCredentials));
 
             return securityToken;
         }
 
         private string GetValidToken(DomainModel.TokenValidator tokenValidator)
         {
-            DomainModel.Authorization authorization = new DomainModel.Authorization();
-            authorization.Secret = Secret;
-            authorization.ExpirationDate = Expires;
+            var authorization = new DomainModel.Authorization();
+            authorization.Secret = this.Secret;
+            authorization.ExpirationDate = this.Expires;
             authorization.UserId = tokenValidator.User.UserId;
 
             if (tokenValidator.SecurityToken == null)
             {
                 var token = this.GenerateJwtToken(tokenValidator.User);
-
                 authorization.JsonWebToken = token;
-
-                this._authorizationRepository.SaveToken(authorization);
+                this._authorizationRepository.SaveAuthorization(authorization);
             }
             else if (tokenValidator.SecurityToken?.ExpirationDate <= DateTime.Now)
             {
-                string refreshedJsonWebToken = this.RefreshToken(authorization, tokenValidator.User);
-                authorization.JsonWebToken = refreshedJsonWebToken;
+                string refreshedSecurityToken = this.RefreshToken(authorization, tokenValidator.User);
+                authorization.JsonWebToken = refreshedSecurityToken;
             }
             else
             {
                 authorization.JsonWebToken = tokenValidator.SecurityToken.JsonWebToken;
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserId", tokenValidator.User.UserId.ToString())
-                    })
-                };
             }
 
             return authorization.JsonWebToken;
@@ -96,23 +90,11 @@
 
         private string RefreshToken(DomainModel.Authorization authorization, DomainModel.User user)
         {
-            string refreshedJsonWebToken = this.GenerateJwtToken(user);
-
-            authorization.JsonWebToken = refreshedJsonWebToken;
-
+            string refreshedSecurityToken = this.GenerateJwtToken(user);
+            authorization.JsonWebToken = refreshedSecurityToken;
             this._authorizationRepository.UpdateToken(authorization);
 
-            return refreshedJsonWebToken;
-        }
-
-        private void ValidateToken(Guid userId)
-        {
-            DomainModel.Authorization token = this._userRepository.GetAuthorizationByUserId(userId);
-
-            if (token.ExpirationDate <= DateTime.Now && token != null)
-            {
-                this._authorizationRepository.UpdateToken(token);
-            }
+            return refreshedSecurityToken;
         }
 
         private void ValidateUserExistence(string email)
@@ -125,18 +107,14 @@
 
         private void SendRegisterNotificationEmail(DomainModel.Registration registration, DomainModel.Settings settings)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<html><body>");
-            //sb.Append("<p>Dear, " + registration.Email + "</p>");
-            sb.Append("<h3>Thank you for joining the Bills Management beta.</h3>");
-            sb.Append("</body></html>");
-
             using (MailMessage mail = new MailMessage())
             {
+                var notificationMessage = this.CreateNotificationMessage();
+
                 mail.From = new MailAddress(settings.BusinessEmail);
                 mail.To.Add(registration.Email);
                 mail.Subject = "Registration confirmed!";
-                mail.Body = sb.ToString();
+                mail.Body = notificationMessage;
                 mail.IsBodyHtml = true;
                 //mail.Attachments.Add(new Attachment("C:\\file.zip"));
 
@@ -147,6 +125,16 @@
                     smtp.Send(mail);
                 }
             }
+        }
+
+        private string CreateNotificationMessage()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<html><body>");
+            sb.Append("<h3>Thank you for joining the Bills Management beta.</h3>");
+            sb.Append("</body></html>");
+
+            return sb.ToString();
         }
     }
 }

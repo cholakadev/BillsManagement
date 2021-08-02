@@ -13,7 +13,7 @@
 
         }
 
-        public void SaveToken(DomainModel.Authorization authorization)
+        public void SaveAuthorization(DomainModel.Authorization authorization)
         {
             Authorization mappedAuthorization = this._mapper.Map<DomainModel.Authorization, Authorization>(authorization);
 
