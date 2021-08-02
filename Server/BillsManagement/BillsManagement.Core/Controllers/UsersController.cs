@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
-    using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DomainModel;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
@@ -33,15 +32,7 @@
             }
             catch (Exception ex)
             {
-                return StatusCode((int)StatusCodes.RegistrationFailed,
-                    new FaultContract
-                    {
-                        Error = new Error()
-                        {
-                            ErrorMessage = ex.Message,
-                            ErrorStatusCode = (int)StatusCodes.RegistrationFailed
-                        }
-                    });
+                throw ex;
             }
         }
 
@@ -59,15 +50,7 @@
             }
             catch (Exception ex)
             {
-                return StatusCode((int)StatusCodes.LoginFailed,
-                    new FaultContract
-                    {
-                        Error = new Error()
-                        {
-                            ErrorMessage = ex.Message,
-                            ErrorStatusCode = (int)StatusCodes.LoginFailed
-                        }
-                    });
+                throw ex;
             }
         }
     }

@@ -2,9 +2,11 @@
 {
     using AutoMapper;
     using BillsManagement.DAL.Models;
+    using BillsManagement.Exception.CustomExceptions;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
     using System.Linq;
+    using System.Net;
 
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
@@ -21,7 +23,8 @@
 
             if (user == null)
             {
-                throw new Exception("Can't read user details.");
+                string msg = "Can't read user details.";
+                throw new HttpStatusCodeException(HttpStatusCode.NotFound, msg);
             }
 
             var mappedAuth = this._mapper
@@ -51,7 +54,8 @@
         {
             if (email == null || email == String.Empty || password == String.Empty)
             {
-                throw new ArgumentNullException("Invalid request data.");
+                string msg = "Invalid request.";
+                throw new HttpStatusCodeException(HttpStatusCode.BadRequest, msg);
             }
 
             User user = new User()
@@ -75,7 +79,7 @@
         public void UpdateToken(DomainModel.Authorization token)
         {
             var authorization = this._mapper
-                .Map<DomainModel.Authorization, Authorization>(token);
+                .Map<DomainModel.Authorization, DAL.Models.Authorization>(token);
 
             this._dbContext.Authorizations.Add(authorization);
 

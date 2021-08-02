@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Utility", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.DomainModels", "BillsManagement.DomainModels\BillsManagement.DomainModels.csproj", "{4DBC1E5C-4BFD-48FC-89BC-CBE461EB20D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Tests", "BillsManagement.Tests\BillsManagement.Tests.csproj", "{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BillsManagement.Tests", "BillsManagement.Tests\BillsManagement.Tests.csproj", "{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsManagement.Exception", "BillsManagement.Exception\BillsManagement.Exception.csproj", "{D665760D-1A8C-448D-89B3-3CA33796B3C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC5E20BC-F1E7-4DAC-A7C5-AD122720390E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D665760D-1A8C-448D-89B3-3CA33796B3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D665760D-1A8C-448D-89B3-3CA33796B3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D665760D-1A8C-448D-89B3-3CA33796B3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D665760D-1A8C-448D-89B3-3CA33796B3C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

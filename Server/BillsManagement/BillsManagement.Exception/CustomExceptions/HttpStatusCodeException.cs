@@ -1,0 +1,32 @@
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Net;
+
+namespace BillsManagement.Exception.CustomExceptions
+{
+    public class HttpStatusCodeException : SystemException
+    {
+        public HttpStatusCode StatusCode { get; set; }
+        public string ContentType { get; set; } = @"text/plain";
+
+        public HttpStatusCodeException(HttpStatusCode statusCode)
+        {
+            this.StatusCode = statusCode;
+        }
+
+        public HttpStatusCodeException(HttpStatusCode statusCode, string message)
+            : base(message)
+        {
+            this.StatusCode = statusCode;
+        }
+
+        public HttpStatusCodeException(HttpStatusCode statusCode, SystemException inner)
+            : this(statusCode, inner.ToString()) { }
+
+        public HttpStatusCodeException(HttpStatusCode statusCode, JObject errorObject)
+            : this(statusCode, errorObject.ToString())
+        {
+            this.ContentType = @"application/json";
+        }
+    }
+}

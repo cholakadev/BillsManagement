@@ -2,10 +2,12 @@
 {
     using AutoMapper;
     using BillsManagement.DAL.Models;
+    using BillsManagement.Exception.CustomExceptions;
     using BillsManagement.Repository.RepositoryContracts;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
 
     public class ChargesRepository : BaseRepository<Charge>, IChargesRepository
     {
@@ -21,7 +23,8 @@
 
             if (!isExisting)
             {
-                throw new Exception("Can't generate a charge for not existing user.");
+                string msg = $"User with id {charge.UserId} does not exist.";
+                throw new HttpStatusCodeException(HttpStatusCode.NotFound, msg);
             }
 
             CashAccount cashAccount = this.GetCashAccountByUserId(charge.UserId);

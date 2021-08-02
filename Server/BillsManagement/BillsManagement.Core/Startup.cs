@@ -1,6 +1,7 @@
 ﻿namespace BillsManagement.Core
 {
     using AutoMapper;
+    using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DAL.Models;
     using BillsManagement.Repository;
     using BillsManagement.Repository.Repositories;
@@ -116,6 +117,8 @@
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<CustomExceptionMiddleware>();
 
             app.UseStaticFiles();
 

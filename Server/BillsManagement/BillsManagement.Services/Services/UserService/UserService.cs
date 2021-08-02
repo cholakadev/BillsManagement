@@ -1,11 +1,14 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
     using BillsManagement.DomainModel;
+    using BillsManagement.Exception.CustomExceptions;
     using BillsManagement.Repository.RepositoryContracts;
     using BillsManagement.Security;
     using BillsManagement.Services.ServiceContracts;
+    using BillsManagement.Utility;
     using Microsoft.Extensions.Options;
     using System;
+    using System.Net;
 
     public partial class UserService : IUserService
     {
@@ -63,7 +66,7 @@
 
             if (authorization.ExpirationDate <= DateTime.Now)
             {
-                throw new Exception("Unauthorized");
+                throw new HttpStatusCodeException(HttpStatusCode.Unauthorized, GlobalConstants.UnauthorizedMessage);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿namespace BillsManagement.Services.Services.UserService
 {
+    using BillsManagement.Exception.CustomExceptions;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.IdentityModel.Tokens;
     using System;
@@ -101,7 +102,8 @@
         {
             if (this._userRepository.IsExistingUser(email))
             {
-                throw new Exception("Email is already used on another account.");
+                string msg = "Email is already used on another account";
+                throw new HttpStatusCodeException(HttpStatusCode.Conflict, msg);
             }
         }
 

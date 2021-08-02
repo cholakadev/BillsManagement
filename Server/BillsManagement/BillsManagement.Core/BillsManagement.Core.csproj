@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>0d0844f4-20c7-4481-b4e3-67c69193e879</UserSecretsId>
+    <!--<UserSecretsId>0d0844f4-20c7-4481-b4e3-67c69193e879</UserSecretsId>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BillsManagement.DomainModels\BillsManagement.DomainModels.csproj" />
+    <ProjectReference Include="..\BillsManagement.Exception\BillsManagement.Exception.csproj" />
     <ProjectReference Include="..\BillsManagement.Services\BillsManagement.Services.csproj" />
   </ItemGroup>
 

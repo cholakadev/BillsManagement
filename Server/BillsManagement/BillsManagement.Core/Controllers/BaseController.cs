@@ -1,9 +1,12 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
+    using BillsManagement.Exception.CustomExceptions;
     using BillsManagement.Services.ServiceContracts;
+    using BillsManagement.Utility;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Linq;
+    using System.Net;
     using System.Security.Claims;
 
     public class BaseController : Controller
@@ -28,11 +31,10 @@
 
             if (claim == null)
             {
-                throw new Exception("Unauthorized.");
+                throw new HttpStatusCodeException(HttpStatusCode.Unauthorized, GlobalConstants.UnauthorizedMessage);
             }
 
             Guid extractedUserId = Guid.Parse(claim.Value);
-
             this._userService.ValidateJwtToken(extractedUserId);
         }
     }

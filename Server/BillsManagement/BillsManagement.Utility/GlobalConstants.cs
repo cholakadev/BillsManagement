@@ -1,7 +1,7 @@
 ﻿namespace BillsManagement.Utility
 {
-    public class GlobalConstants
+    public static class GlobalConstants
     {
-
+        public const string UnauthorizedMessage = "Unauthorized";
     }
 }

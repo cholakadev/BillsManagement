@@ -1,6 +1,5 @@
 ﻿namespace BillsManagement.Core.Controllers
 {
-    using BillsManagement.Core.CustomExceptions;
     using BillsManagement.DomainModel.Charges;
     using BillsManagement.Services.ServiceContracts;
     using Microsoft.AspNetCore.Mvc;
@@ -12,13 +11,11 @@
     public class ChargesController : BaseController
     {
         private readonly IChargesService _service;
-        private readonly IUserService _userService;
 
         public ChargesController(IChargesService service, IUserService userService)
             : base(userService)
         {
             this._service = service;
-            this._userService = userService;
         }
 
         [HttpGet]
@@ -36,23 +33,15 @@
         {
             try
             {
-                GetChargesResponse response = new GetChargesResponse();
                 this.Authorize();
+                GetChargesResponse response = new GetChargesResponse();
                 response = this._service.GetCharges();
                 response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             catch (Exception ex)
             {
-                return StatusCode((int)StatusCodes.FailedChargeGeneration,
-                    new FaultContract
-                    {
-                        Error = new Error()
-                        {
-                            ErrorMessage = ex.Message,
-                            ErrorStatusCode = (int)StatusCodes.FailedGettingCharges
-                        }
-                    });
+                throw ex;
             }
         }
 
@@ -70,15 +59,7 @@
             }
             catch (Exception ex)
             {
-                return StatusCode((int)StatusCodes.FailedChargeGeneration,
-                    new FaultContract
-                    {
-                        Error = new Error()
-                        {
-                            ErrorMessage = ex.Message,
-                            ErrorStatusCode = (int)StatusCodes.FailedChargeGeneration
-                        }
-                    });
+                throw ex;
             }
         }
 
