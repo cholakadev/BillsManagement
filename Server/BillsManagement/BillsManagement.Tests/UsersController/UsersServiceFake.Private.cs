@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BillsManagement.Tests.UsersControllerTests
+namespace BillsManagement.Tests.UsersController
 {
     public partial class UsersServiceFake
     {

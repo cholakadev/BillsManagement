@@ -1,7 +1,6 @@
 ﻿using BillsManagement.Core.Controllers;
 using BillsManagement.DomainModel.Charges;
 using BillsManagement.Services.ServiceContracts;
-using BillsManagement.Tests.UsersControllerTests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,14 +13,14 @@ namespace BillsManagement.Tests.ChargesControllerTests
     public partial class ChargesTests
     {
         ChargesController _chargesController;
-        UsersController _usersController;
+        //UsersController _usersController;
         IChargesService _service;
         IUserService _userService;
 
         public ChargesTests()
         {
             this._service = new ChargesServiceFake();
-            this._userService = new UsersServiceFake();
+            //this._userService = new UsersServiceFake()
             this._chargesController = new ChargesController(_service, _userService);
         }
 

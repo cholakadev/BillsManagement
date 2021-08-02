@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UsersControllerTests\UsersServiceFake.Private.cs" />
+    <Compile Remove="UsersController\UsersServiceFake.Private.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="UsersControllerTests\UsersServiceFake.Private.cs" />
+    <None Include="UsersController\UsersServiceFake.Private.cs" />
   </ItemGroup>
 
   <ItemGroup>

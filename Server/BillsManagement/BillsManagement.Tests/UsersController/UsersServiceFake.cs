@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Security.Claims;
 
-namespace BillsManagement.Tests.UsersControllerTests
+namespace BillsManagement.Tests.UsersController
 {
     public class UsersServiceFake : IUserService
     {

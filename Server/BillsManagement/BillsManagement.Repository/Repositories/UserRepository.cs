@@ -51,7 +51,7 @@
         {
             if (email == null || email == String.Empty || password == String.Empty)
             {
-                throw new Exception("Invalid request data.");
+                throw new ArgumentNullException("Invalid request data.");
             }
 
             User user = new User()
