@@ -97,7 +97,7 @@ Manual of how to set up the project locally.
    ```
    <font size="3">3.2.  Allow user-secrets: </font>
 	  ```sh
-   dotnet init
+   dotnet user-secrets init
    ```
    <font size="3">3.3.  Set up the neccessery secrets: </font>
 	  ```sh
