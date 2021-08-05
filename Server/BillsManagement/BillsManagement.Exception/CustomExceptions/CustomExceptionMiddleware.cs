@@ -1,11 +1,11 @@
-﻿using BillsManagement.Exception.CustomExceptions;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Net;
-using System.Threading.Tasks;
-
-namespace BillsManagement.Core.CustomExceptions
+﻿namespace BillsManagement.Core.CustomExceptions
 {
+    using BillsManagement.Exception.CustomExceptions;
+    using Microsoft.AspNetCore.Http;
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+
     public class CustomExceptionMiddleware
     {
         private readonly RequestDelegate next;

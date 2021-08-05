@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
-
-namespace BillsManagement.Utility.Options
+﻿namespace BillsManagement.Utility.Options
 {
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Options;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.IO;
+
     public class WritableOptions<T> : IWritableOptions<T> where T : class, new()
     {
         [Obsolete]
